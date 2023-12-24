@@ -5,12 +5,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-# Register 
+from rest_framework import viewsets, permissions, generics, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from rest_framework import serializers
+from .serializers import UserSerializer, UserRegisterSerializer, UserLoginSerializer, UserUpdateSerializer, UserChangePasswordSerializer, UserDeleteSerializer
+
+#register api
+@api_view(['POST'])
 def register(request):
     # If the request is a POST request, then the user is trying to register
     if request.method == 'POST':
         # Get the form data
-        data = request.POST.copy()
+        data = request.data.copy()
 
         username = data.get('username')
         password = data.get('password')
@@ -26,11 +34,11 @@ def register(request):
             # Save the user
             user.save()
             # Redirect to the register page with a success message
-            return render(request, 'users/register.html', {'success': 'User Created Successfully'})
+            return Response({'success': 'User Created Successfully'}, status=status.HTTP_201_CREATED)
         # Otherwise, the passwords do not match
         else:
             # Redirect to the registration page with an error message
-            return render(request, 'users/register.html', {'error': 'Passwords do not match'})
+            return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
     # Otherwise, the user is trying to access the registration page
     else:
-        return render(request, 'users/register.html')
+        return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
