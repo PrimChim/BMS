@@ -30,3 +30,23 @@ def register(request):
             return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def login(request):
+    # If the request is a POST request, then the user is trying to login
+    if request.method == 'POST':
+        # Get the form data
+        data = request.data.copy()
+
+        username = data.get('username')
+        password = data.get('password')
+        # Authenticate the user
+        user = authenticate(username=username, password=password)
+        # If the user is authenticated, then login the user
+        if user is not None:
+            login(request, user)
+            return Response({'success': 'User Logged in Successfully'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
