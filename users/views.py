@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib import messages
-
+from django.contrib.auth import authenticate, login
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -78,7 +78,7 @@ def login_api(request):
     else:
         return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
 
-def login(request):
+def login_view(request):
     if request.method == 'POST':
         data = request.POST.copy()
 
@@ -86,6 +86,9 @@ def login(request):
         password = data.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
+            if user.is_superuser:
+                login(request, user)
+                return redirect('admin:index')
             login(request, user)
             return redirect('users:profile')
         else:

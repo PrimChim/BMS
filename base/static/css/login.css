@@ -1,11 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Judson:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root{
+    --font-family: "Judson", serif;
+}
+
 *{
     margin: 0;
     padding: 0;
 }
 
 body{
-    font-family: 'Poppins', sans-serif;
-    background: #3A3D47;
+    font-family: var(--font-family);
+    background: #3a3d47;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,9 +20,9 @@ body{
 }
 
 form{
-    width: 454px;
-    height: 421px;
-    background-color: #363B4C;
+    width: 404px;
+    height: 371px;
+    background-color: #363B4D;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,16 +31,43 @@ form{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+h1{
+    color: white;
+    font-size: 18px;
+    margin-top: 35px;
+}
+
+label{
+    color: black;
+    font-size: 18px;
+}
+
+.user-label{
+    align-self: flex-start;
+    margin-left: 10%;
+    margin-top: 20px;
+}
+
+a{
+    color: #00AEE4;
+}
+
+.forgot-label{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    margin-left: 0;
+    margin-top: 20px;
+}
+
 input{
     width: 80%;
     height: 54px;
-    background-color: #2D3142;
-    border: none;
+    background-color: rgba(217, 217, 217, 0.1);
+    border: 2px solid black;
     color: white;
     font-size: 18px;
-    padding: 0 20px;
-    margin-top: 20px;
-    border-radius: 4px;
+    margin-top: 10px;
 }
 
 input[type="submit"]{

@@ -4,7 +4,7 @@
 {% block title %}Login | Bill Management System{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -12,22 +12,15 @@
 <form action="login" method="post">
     {% csrf_token %}
     {% if error %}
-        <p>{{ error }}</p>
+    <p>{{ error }}</p>
     {% endif %}
-    <label for="username">Username</label>
-    <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        required
-    >
-    <label for="password">Password</label>
-    <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-    >
+    <h1>Log in to your account</h1>
+    <label for="username" class="user-label">Username</label>
+    <input type="text" name="username" required>
+    <div class="forgot-label">
+        <label for="password">Password</label><a href="">Forgot password?</a>
+    </div>
+    <input type="password" name="password" required>
     <input type="submit" value="Login">
 </form>
 {% endblock %}
