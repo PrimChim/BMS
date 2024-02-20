@@ -4,10 +4,11 @@ from django.contrib import messages
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.shortcuts import render, redirect
 
 #register api
 @api_view(['POST'])
-def register(request):
+def register_api(request):
     # If the request is a POST request, then the user is trying to register
     if request.method == 'POST':
         # Get the form data
@@ -31,8 +32,34 @@ def register(request):
     else:
         return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
 
+def register(request):
+    # If the request is a POST request, then the user is trying to register
+    if request.method == 'POST':
+        # Get the form data
+        data = request.POST.copy()
+
+        username = data.get('username')
+        password = data.get('password')
+        password_confirmation = data.get('password2')
+        email = data.get('email')
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        # If the passwords match, then create a new user
+        if password == password_confirmation:
+            # Create a new user
+            user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+            print(user)
+            user.save()
+            messages.success(request, 'User Created Successfully')
+            return redirect('users:login')
+        else:
+            messages.error(request, 'Passwords do not match')
+            return redirect('users:register')
+    else:
+        return render(request, 'users/register.html')
+
 @api_view(['POST'])
-def login(request):
+def login_api(request):
     # If the request is a POST request, then the user is trying to login
     if request.method == 'POST':
         # Get the form data
@@ -50,3 +77,19 @@ def login(request):
             return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
+
+def login(request):
+    if request.method == 'POST':
+        data = request.POST.copy()
+
+        username = data.get('username')
+        password = data.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('users:profile')
+        else:
+            messages.error(request, 'Invalid Credentials')
+            return redirect('users:login')
+    else:
+        return render(request, 'users/login.html')
