@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'users',
     'rest_framework',
     'knox',
-    
+    'billing',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +106,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'base/static')
+    os.path.join(BASE_DIR, 'base/static'),
+    os.path.join(BASE_DIR, 'billing/static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 

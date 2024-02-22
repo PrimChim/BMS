@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Bills</title>
+    <link rel="stylesheet" href="{% static 'css/create-bill.css' %}">
+</head>
+
+<body>
+    <nav>
+        <a href="#">link</a>
+    </nav>
+    <main>
+        <h1>Create new bills</h1>
+        <div class="top-section">
+            <div class="own-details">
+                <h2>Blue Sky Suppliers</h2>
+                <h3>Syange</h3>
+                <h3>Lamjung, 33600</h3>
+                <h3>9876543210, bill@bluesky.com</h3>
+            </div>
+            <div class="right-date">
+                <h3>Date: </h3>
+                <h3>Invoice no.: #</h3>
+            </div>
+        </div>
+        <hr>
+        <h2>Bill to</h2>
+        <label for="customer-name">customer name</label>
+        <input type="text" name="customer-name">
+        <label for="customer-pan">Customer pan</label>
+        <input type="text" name="customer-pan" id="">
+        <hr>
+        <h2>Bill Details</h2>
+        <table>
+            <tr>
+                <th class="sn">S.N.</td>
+                <th class="item-name">Item Name</td>
+                <th class="quantity">Quantity</td>
+                <th class="price">Price</td>
+                <th class="total">Total</td>
+            </tr>
+            <tr>
+                <td class="sn" width="40px">1</td>
+                <td class="item-name"><input type="text" name="item-name"></td>
+                <td class="quantity"><input type="number" name="item-quantity"></td>
+                <td class="price"><input type="number" name="item-price"></td>
+                <td class="total"><input type="number" name="item-total" id="" readonly></td>
+            </tr>
+        </table>
+    </main>
+</body>
+
+</html>
