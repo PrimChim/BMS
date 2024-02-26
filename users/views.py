@@ -1,10 +1,15 @@
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
+# for customer API
+from .models import Customer
+from .searilizers import CustomerSerializer
 
 #register api
 @api_view(['POST'])
@@ -96,3 +101,24 @@ def login_view(request):
             return redirect('users:login')
     else:
         return render(request, 'users/login.html')
+
+# customer API
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+# add customer API
+@api_view(['POST'])
+@login_required
+def add_customer(request):
+    if request.method == 'POST':
+        data = request.data.copy()
+        name = data.get('name')
+        pan = data.get('pan')
+        email = data.get('email')
+        address = data.get('address')
+        customer = Customer(name=name, pan=pan, email=email, address=address)
+        customer.save()
+        return Response({'success': 'Customer Added Successfully'}, status=status.HTTP_201_CREATED)
+    else:
+        return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)

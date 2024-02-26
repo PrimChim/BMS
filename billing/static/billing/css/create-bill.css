@@ -16,10 +16,6 @@ nav{
     top: 0;
 }
 
-main{
-    /* height: 200vh; */
-}
-
 ::-webkit-scrollbar {
     display: none;
 }
@@ -40,6 +36,11 @@ main{
 
 input[name='item-name']{
     width: 300px;
+}
+
+.billed-to{
+    display: flex;
+    flex-direction: column;
 }
 
 .customer-details{
