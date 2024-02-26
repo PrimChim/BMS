@@ -17,7 +17,7 @@ nav{
 }
 
 main{
-    height: 200vh;
+    /* height: 200vh; */
 }
 
 ::-webkit-scrollbar {
@@ -38,6 +38,11 @@ main{
     width: 300px;
 }
 
-.item-name input{
-    
+input[name='item-name']{
+    width: 300px;
+}
+
+.customer-details{
+    min-width: 300px;
+    max-width: 500px;
 }
