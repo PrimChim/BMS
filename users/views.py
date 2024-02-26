@@ -107,10 +107,12 @@ class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
-# add customer API
+# add customer API, requires staff user login to add customer
 @api_view(['POST'])
 @login_required
 def add_customer(request):
+    if not request.user.is_staff:
+        return Response({'error': 'You are not authorized to add customer'}, status=status.HTTP_403_FORBIDDEN)
     if request.method == 'POST':
         data = request.data.copy()
         name = data.get('name')
