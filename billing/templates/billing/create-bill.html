@@ -32,29 +32,33 @@
         <b>To:</b>
         <div class="billed-to">
             <label for="customer-name">customer name</label>
-            <input type="text" name="customer-name" class="customer-details">
+            <select type="text" name="customer-name" class="customer-details" id="customer"></select>
             <label for="customer-pan">Customer pan</label>
             <input type="text" name="customer-pan" class="customer-details">
         </div>
         <hr>
         <h2>Bill Details</h2>
-        <table>
-            <tr>
-                <th class="sn">S.N.</td>
-                <th class="item-name">Item Name</td>
-                <th class="quantity">Quantity</td>
-                <th class="price">Price</td>
-                <th class="total">Total</td>
-            </tr>
-            <tr>
-                <td class="sn" width="40px">1</td>
-                <td class="item-name"><input type="text" name="item-name"></td>
-                <td class="quantity"><input type="number" name="item-quantity"></td>
-                <td class="price"><input type="number" name="item-price"></td>
-                <td class="total"><input type="number" name="item-total" id="" readonly></td>
-            </tr>
-        </table>
+        <form action="">
+            <table id="bill-table">
+                <tr>
+                    <th class="sn">S.N.</td>
+                    <th class="item-name">Item Name</td>
+                    <th class="quantity">Quantity</td>
+                    <th class="price">Price</td>
+                    <th class="total">Total</td>
+                </tr>
+                <tr>
+                    <td class="sn" width="40px">1</td>
+                    <td class="item-name"><input type="text" name="item-name" class="item-name"></td>
+                    <td class="quantity"><input type="number" name="item-quantity"></td>
+                    <td class="price"><input type="number" name="item-price"></td>
+                    <td class="total"><input type="number" name="item-total" id="" readonly></td>
+                </tr>
+            </table>
+            <button type="button" id="add-item" onclick="addLineToBill()">Add Item</button>
+        </form>
     </main>
+    <script src="{% static 'billing/js/create-bill.js' %}"></script>
 </body>
 
 </html>

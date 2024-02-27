@@ -34,10 +34,6 @@ nav{
     width: 300px;
 }
 
-input[name='item-name']{
-    width: 300px;
-}
-
 .billed-to{
     display: flex;
     flex-direction: column;
