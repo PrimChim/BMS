@@ -39,7 +39,36 @@ nav{
     flex-direction: column;
 }
 
-.customer-details{
+.customer-details, #customers{
     min-width: 300px;
     max-width: 500px;
 }
+
+#customers{
+    position: absolute;
+    z-index: 1;
+    margin-top: 45px;
+}
+
+#customers-list{
+    background-color: white;
+    max-width: 500px;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+#customers-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+li{
+    list-style: none;
+    padding: 5px;
+    border-bottom: 0.5px solid #858585;
+    cursor: pointer;
+}
+
+li:hover{
+    background-color: #858585;
+}
+
