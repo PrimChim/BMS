@@ -1,3 +1,7 @@
+let customersList = document.getElementById('customers-list');
+let customer = document.getElementById('customer');
+let customerPan = document.querySelectorAll('.customer-details')[1];
+
 // fetch all customers and store them in cache
 function fetchCustomers() {
     let customers = [];
@@ -9,9 +13,7 @@ function fetchCustomers() {
         });
 }
 
-let customerPan = document.querySelectorAll('.customer-details')[1];
-
-let customersList = document.getElementById('customers-list');
+// initial fetch of customers to localstorage
 if (localStorage.getItem('customers') === null) {
     fetchCustomers();
 } else {
@@ -19,19 +21,18 @@ if (localStorage.getItem('customers') === null) {
     if (customers != null) {
         customers.forEach(customer => {
             customersList.innerHTML += `<li onClick="setCustomer('${customer.name}', ${customer.pan})">${customer.name}</li>`;
-            console.log(customer);
         });
     }
 }
 
-let customer = document.getElementById('customer');
-
+// set customer name and pan in input fields
 function setCustomer(name, pan) {
     customer.value = name;
     customerPan.value = pan;
     customersList.style.display = 'none';
 }
 
+// search customer from localstorage
 customer.addEventListener('focus', function () {
     if (this.value == '') {
         customersList.style.display = 'block';
@@ -52,6 +53,7 @@ customer.addEventListener('focus', function () {
     }
 })
 
+// search customer from localstorage
 customer.addEventListener('input', function () {
     customersList.style.display = 'block';
 
@@ -69,6 +71,7 @@ customer.addEventListener('input', function () {
     });
 });
 
+// hide customer list when focus out
 customer.addEventListener('focusout', function () {
     if (this.value == '') {
         customerPan.value = '';
@@ -78,17 +81,14 @@ customer.addEventListener('focusout', function () {
     }, 200);
 })
 
-document.getElementById('customer').addEventListener('change', function () {
-    let customers = JSON.parse(localStorage.getItem('customers'));
-    console.log(customerPan);
-    let customer = customers.find(customer => customer.pan == this.value);
-    customerPan.value = customer.pan;
-});
-
 // populate new data in localstorage in certain interval
 setInterval(fetchCustomers, 120000);
 
+// adding new table row in bill
 function addLineToBill() {
+    ```
+    function to add new line to bill table
+    ```
     let table = document.getElementById('bill-table');
     let sn = table.rows.length;
     table.innerHTML += `

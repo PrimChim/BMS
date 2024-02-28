@@ -42,6 +42,10 @@
         </div>
         <hr>
         <h2>Bill Details</h2>
+        <input type="text" id="items-search">
+        <div id="items">
+            <li id="items-list" style="display: none;">
+        </div>
         <form action="">
             <table id="bill-table">
                 <tr>
@@ -63,6 +67,7 @@
         </form>
     </main>
     <script src="{% static 'billing/js/create-bill.js' %}"></script>
+    <script src="{% static 'billing/js/items-search.js' %}"></script>
 </body>
 
 </html>

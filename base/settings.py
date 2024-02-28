@@ -121,3 +121,6 @@ LOGIN_REDIRECT_URL = '/dashboard'
 
 # URL to redirect to after logout to users:login
 LOGOUT_REDIRECT_URL = '/login'
+
+# URL to redirect to login page
+LOGIN_URL = '/login'

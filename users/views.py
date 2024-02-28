@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import render, redirect
@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 # for customer API
 from .models import Customer
-from .searilizers import CustomerSerializer
+from .serializers import CustomerSerializer
 
 #register api
 @api_view(['POST'])
@@ -103,9 +103,11 @@ def login_view(request):
         return render(request, 'users/login.html')
 
 # customer API
-class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
+@api_view(['GET'])
+def get_customers(request):
+    customers = Customer.objects.all()
+    serializer = CustomerSerializer(customers, many=True)
+    return Response(serializer.data)
 
 # add customer API, requires staff user login to add customer
 @api_view(['POST'])
