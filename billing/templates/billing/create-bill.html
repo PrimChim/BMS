@@ -44,7 +44,7 @@
         <h2>Bill Details</h2>
         <input type="text" id="items-search">
         <div id="items">
-            <li id="items-list" style="display: none;">
+            <li id="items-list" style="display: none;"></li>
         </div>
         <form action="">
             <table id="bill-table">
@@ -55,15 +55,7 @@
                     <th class="price">Price</td>
                     <th class="total">Total</td>
                 </tr>
-                <tr>
-                    <td class="sn" width="40px">1</td>
-                    <td class="item-name"><input type="text" name="item-name" class="item-name"></td>
-                    <td class="quantity"><input type="number" name="item-quantity"></td>
-                    <td class="price"><input type="number" name="item-price"></td>
-                    <td class="total"><input type="number" name="item-total" id="" readonly></td>
-                </tr>
             </table>
-            <button type="button" id="add-item" onclick="addLineToBill()">Add Item</button>
         </form>
     </main>
     <script src="{% static 'billing/js/create-bill.js' %}"></script>

@@ -24,7 +24,6 @@ itemsSearch.addEventListener('input', function () {
 
     let items = JSON.parse(localStorage.getItem('items'));
     let filteredItems = items.filter(item => item.name.toLowerCase().includes(this.value.toLowerCase()));
-    console.log(filteredItems)
     if (filteredItems.length == 0) {
         fetchItems();
         itemsList.style.display = 'none';
@@ -47,12 +46,32 @@ itemsSearch.addEventListener('focusout', function () {
 
 // add items on click
 function setItem(name, price) {
+    let sn = billTable.rows.length;
+
+    if(name == "Digital 16' External Monitor"){
+        name = "Digital 16\' External Monitor";
+    }
+
     billTable.innerHTML += `<tr>
-        <td><input type="text" value="${name}" readonly></td>
-        <td><input type="number" value="${price}" readonly></td>
-        <td><input type="number" value="1" min="1" max="10"></td>
-        <td></td>
+        <td class='sn'>${sn}</td>
+        <td class='item-name'><input type="text" value="${name}" name="item-name" class="item-name" readonly></td>
+        <td class='quantity'><input type="number" name='item-quantity' value='1'></td>
+        <td class='price'><input type="number" name='item-price' value="${price}" readonly></td>
+        <td clas='total'><input type='number' name='item-total'value=${price} readonly></td>
         </tr>`;
     itemsSearch.value = '';
     itemsList.style.display = 'none';
+    calculateTotalOnChange();
+}
+
+// calculate total on quantity change
+let quantity = document.getElementsByName('item-quantity');
+let price = document.getElementsByName('item-price');
+let total = document.getElementsByName('item-total');
+function calculateTotalOnChange() {
+    for (let i = 0; i < quantity.length; i++) {
+        quantity[i].addEventListener('input', function () {
+            total[i].value = quantity[i].value * price[i].value;
+        })
+    }
 }
