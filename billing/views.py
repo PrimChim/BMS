@@ -27,7 +27,7 @@ def create_bill(request):
             item = Items.objects.get(name=items[i])
             bill_item = BillItems(quantity=quantities[i], bill=bill, item=item)
             bill_item.save()
-        return render(request, 'billing/create-bill.html')
+        return render(request, 'billing/create-bill.html',{'message':'Bill Created Successfully!!!'})
     return render(request, 'billing/create-bill.html')
 
 @api_view(['GET','POST'])
@@ -41,6 +41,10 @@ def view_bills(request):
             bill = Bills.objects.get(id=bill_id)
             bill_items = BillItems.objects.filter(bill_id=bill)
             serializer = BillItemsSerializer(bill_items, many=True)
+            for data in serializer.data:
+                item_id = data['item']
+                item_name = Items.objects.get(id=item_id).name
+                data['item'] = item_name
             return Response(serializer.data)
         except Bills.DoesNotExist:
             return Response({'message':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
