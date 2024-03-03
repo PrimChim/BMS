@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from .models import Items, Bills, BillItems
 from users.models import Customer
 from .serializers import ItemsSerializer, BillsSerializer, BillItemsSerializer
@@ -29,9 +30,22 @@ def create_bill(request):
         return render(request, 'billing/create-bill.html')
     return render(request, 'billing/create-bill.html')
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 @login_required
 def view_bills(request):
+
+    # POST request
+    if request.method == 'POST':
+        bill_id = int(request.data.get('bill-id'))
+        try:
+            bill = Bills.objects.get(id=bill_id)
+            bill_items = BillItems.objects.filter(bill_id=bill)
+            serializer = BillItemsSerializer(bill_items, many=True)
+            return Response(serializer.data)
+        except Bills.DoesNotExist:
+            return Response({'message':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    # GET request
     bills = Bills.objects.all()
     serializer = BillsSerializer(bills, many=True)
     return Response(serializer.data)
