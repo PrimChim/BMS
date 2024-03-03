@@ -1,6 +1,6 @@
 let customersList = document.getElementById('customers-list');
-let customer = document.getElementById('customer');
 let customerPan = document.querySelectorAll('.customer-details')[1];
+let customerEmail = document.getElementById('customer-email');
 
 // fetch all customers and store them in cache
 function fetchCustomers() {
@@ -20,15 +20,16 @@ if (localStorage.getItem('customers') === null) {
     let customers = JSON.parse(localStorage.getItem('customers'));
     if (customers != null) {
         customers.forEach(customer => {
-            customersList.innerHTML += `<li onClick="setCustomer('${customer.name}', ${customer.pan})">${customer.name}</li>`;
+            customersList.innerHTML += `<li onClick="setCustomer('${customer.name}', ${customer.pan}, '${customer.email},)">${customer.name}</li>`;
         });
     }
 }
 
 // set customer name and pan in input fields
-function setCustomer(name, pan) {
+function setCustomer(name, pan, email) {
     customer.value = name;
     customerPan.value = pan;
+    customerEmail.value = email;
     customersList.style.display = 'none';
 }
 
@@ -43,7 +44,7 @@ customer.addEventListener('focus', function () {
 
     customersList.innerHTML = '';
     filteredCustomers.forEach(customer => {
-        customersList.innerHTML += `<li onClick="setCustomer('${customer.name}', ${customer.pan})">${customer.name}</li>`;
+        customersList.innerHTML += `<li onClick="setCustomer('${customer.name}', ${customer.pan}, '${customer.email}')">${customer.name}</li>`;
     });
     customersList.style.display = 'block';
 
@@ -67,7 +68,7 @@ customer.addEventListener('input', function () {
     
     customersList.innerHTML = '';
     filteredCustomers.forEach(customer => {
-        customersList.innerHTML += `<li onClick="setCustomer('${customer.name}', ${customer.pan})">${customer.name}</li>`;
+        customersList.innerHTML += `<li onClick="setCustomer('${customer.name}', ${customer.pan}, '${customer.email}')">${customer.name}</li>`;
     });
 });
 
@@ -83,20 +84,3 @@ customer.addEventListener('focusout', function () {
 
 // populate new data in localstorage in certain interval
 setInterval(fetchCustomers, 120000);
-
-// adding new table row in bill
-function addLineToBill() {
-    ```
-    function to add new line to bill table
-    ```
-    let table = document.getElementById('bill-table');
-    let sn = table.rows.length;
-    table.innerHTML += `
-        <tr>
-            <td class="sn" width="40px">${sn}</td>
-            <td class="item-name"><input type="text" name="${sn}item-name" class="item-name"></td>
-            <td class="quantity"><input type="number" name="${sn}item-quantity"></td>
-            <td class="price"><input type="number" name="${sn}item-price"></td>
-            <td class="total"><input type="number" name="${sn}item-total" id="" readonly></td>
-        </tr>`;
-}

@@ -57,7 +57,7 @@ function setItem(name, price) {
         <td class='item-name'><input type="text" value="${name}" name="item-name" class="item-name" readonly></td>
         <td class='quantity'><input type="number" name='item-quantity' value='1'></td>
         <td class='price'><input type="number" name='item-price' value="${price}" readonly></td>
-        <td clas='total'><input type='number' name='item-total'value=${price} readonly></td>
+        <td clas='total'><input type='number' name='item-total' value=${price} readonly></td>
         </tr>`;
     itemsSearch.value = '';
     itemsList.style.display = 'none';

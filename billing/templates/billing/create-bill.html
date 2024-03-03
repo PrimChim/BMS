@@ -34,9 +34,9 @@
             <label for="customer-name">customer name</label>
             <input type="text" name="customer-name" class="customer-details" id="customer">
             <div id="customers">
-                <li id="customers-list" style="display: none;">
+                <ul id="customers-list" style="display: none;">
+                </ul>
             </div>
-            </li>
             <label for="customer-pan">Customer pan</label>
             <input type="text" name="customer-pan" class="customer-details">
         </div>
@@ -44,18 +44,21 @@
         <h2>Bill Details</h2>
         <input type="text" id="items-search">
         <div id="items">
-            <li id="items-list" style="display: none;"></li>
+            <ul id="items-list" style="display: none;"></ul>
         </div>
-        <form action="">
+        <form method="post">
+            {% csrf_token %}
+            <input type="email" name="customer-email" id="customer-email">
             <table id="bill-table">
                 <tr>
-                    <th class="sn">S.N.</td>
-                    <th class="item-name">Item Name</td>
-                    <th class="quantity">Quantity</td>
-                    <th class="price">Price</td>
-                    <th class="total">Total</td>
+                    <th class="sn">S.N.</th>
+                    <th class="item-name">Item Name</th>
+                    <th class="quantity">Quantity</th>
+                    <th class="price">Price</th>
+                    <th class="total">Total</th>
                 </tr>
             </table>
+            <input type="submit" value="Create Bill">
         </form>
     </main>
     <script src="{% static 'billing/js/create-bill.js' %}"></script>
