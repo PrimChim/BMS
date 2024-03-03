@@ -48,7 +48,7 @@
         </div>
         <form method="post">
             {% csrf_token %}
-            <input type="email" name="customer-email" id="customer-email">
+            <input type="email" name="customer-email" id="customer-email" hidden>
             <table id="bill-table">
                 <tr>
                     <th class="sn">S.N.</th>

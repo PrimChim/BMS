@@ -4,30 +4,37 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Items, Bills, BillItems
 from users.models import Customer
-from .serializers import ItemsSerializer
+from .serializers import ItemsSerializer, BillsSerializer, BillItemsSerializer
 from django.contrib.auth.decorators import login_required
 
 def create_bill(request):
     if request.method == 'POST':
-        user = request.user
-        # get the customer using email
         customer_email = request.POST.get('customer-email')
         customer_id = Customer.objects.get(email=customer_email).id
+
         items = request.POST.getlist('item-name')
         quantities = request.POST.getlist('item-quantity')
         prices = request.POST.getlist('item-total')
         total = 0
-        print(items, quantities, prices, customer_id)
+        
         for i in range(len(items)):
             total += int(prices[i])
         bill = Bills(total_price=total, customer_id=customer_id)
         bill.save()
+
         for i in range(len(items)):
             item = Items.objects.get(name=items[i])
             bill_item = BillItems(quantity=quantities[i], bill=bill, item=item)
             bill_item.save()
         return render(request, 'billing/create-bill.html')
     return render(request, 'billing/create-bill.html')
+
+@api_view(['GET'])
+@login_required
+def view_bills(request):
+    bills = Bills.objects.all()
+    serializer = BillsSerializer(bills, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def add_items(request):
