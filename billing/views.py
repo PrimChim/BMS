@@ -30,6 +30,31 @@ def create_bill(request):
         return render(request, 'billing/create-bill.html',{'message':'Bill Created Successfully!!!'})
     return render(request, 'billing/create-bill.html')
 
+@api_view(['POST'])
+@login_required
+def create_bill_api(request):
+    if request.method == 'POST':
+        customer_email = request.data.get('customer-email')
+        customer_id = Customer.objects.get(email=customer_email).id
+
+        items = request.data.get('item-name')
+        quantities = request.data.get('item-quantity')
+        prices = request.data.get('item-total')
+        total = 0
+        
+        for i in range(len(items)):
+            total += int(prices[i])
+        bill = Bills(total_price=total, customer_id=customer_id)
+        bill.save()
+
+        for i in range(len(items)):
+            item = Items.objects.get(name=items[i])
+            bill_item = BillItems(quantity=quantities[i], bill=bill, item=item)
+            bill_item.save()
+        return Response({'message':'Bill Created Successfully!!!'}, status=status.HTTP_201_CREATED)
+    return Response({'message' : 'Unsupported method used!!!'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET','POST'])
 @login_required
 def view_bills(request):
