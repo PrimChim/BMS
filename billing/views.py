@@ -8,27 +8,7 @@ from users.models import Customer
 from .serializers import ItemsSerializer, BillsSerializer, BillItemsSerializer
 from django.contrib.auth.decorators import login_required
 
-def create_bill(request):
-    if request.method == 'POST':
-        customer_email = request.POST.get('customer-email')
-        customer_id = Customer.objects.get(email=customer_email).id
-
-        items = request.POST.getlist('item-name')
-        quantities = request.POST.getlist('item-quantity')
-        prices = request.POST.getlist('item-total')
-        total = 0
-        
-        for i in range(len(items)):
-            total += int(prices[i])
-        bill = Bills(total_price=total, customer_id=customer_id)
-        bill.save()
-
-        for i in range(len(items)):
-            item = Items.objects.get(name=items[i])
-            bill_item = BillItems(quantity=quantities[i], bill=bill, item=item)
-            bill_item.save()
-        return render(request, 'billing/create-bill.html',{'message':'Bill Created Successfully!!!'})
-    return render(request, 'billing/create-bill.html')
+# billing API views
 
 @api_view(['POST'])
 @login_required
@@ -55,13 +35,13 @@ def create_bill_api(request):
     return Response({'message' : 'Unsupported method used!!!'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET','POST'])
+@api_view(['GET'])
 @login_required
-def view_bills(request):
+def view_bills(request, id=None):
 
     # POST request
-    if request.method == 'POST':
-        bill_id = int(request.data.get('bill-id'))
+    if id is not None:
+        bill_id = id
         try:
             bill = Bills.objects.get(id=bill_id)
             bill_items = BillItems.objects.filter(bill_id=bill)
@@ -77,6 +57,8 @@ def view_bills(request):
     # GET request
     bills = Bills.objects.all()
     serializer = BillsSerializer(bills, many=True)
+    for data in serializer.data:
+        data['invoice_date'] = data['invoice_date'].split('T')[0]
     return Response(serializer.data)
 
 @api_view(['POST'])
@@ -93,3 +75,30 @@ def get_items(request):
     items = Items.objects.all()
     serializer = ItemsSerializer(items, many=True)
     return Response(serializer.data)
+
+# billing frontend views
+
+def create_bill(request):
+    if request.method == 'POST':
+        customer_email = request.POST.get('customer-email')
+        customer_id = Customer.objects.get(email=customer_email).id
+
+        items = request.POST.getlist('item-name')
+        quantities = request.POST.getlist('item-quantity')
+        prices = request.POST.getlist('item-total')
+        total = 0
+        
+        for i in range(len(items)):
+            total += int(prices[i])
+        bill = Bills(total_price=total, customer_id=customer_id)
+        bill.save()
+
+        for i in range(len(items)):
+            item = Items.objects.get(name=items[i])
+            bill_item = BillItems(quantity=quantities[i], bill=bill, item=item)
+            bill_item.save()
+        return render(request, 'billing/create-bill.html',{'message':'Bill Created Successfully!!!'})
+    return render(request, 'billing/create-bill.html')
+
+def view_bills_frontend(request):
+    return render(request, 'billing/view-bills.html')

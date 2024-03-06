@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bills</title>
+</head>
+
+<body>
+    <h1>Bills</h1>
+    <table id="bills-table">
+        <thead>
+            <tr>
+                <th>Bill ID</th>
+                <th>Amount</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    </table>
+
+    <script src="{% static 'billing/js/view-bills.js' %}"></script>
+</body>
+
+</html>
