@@ -1,71 +1,65 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}Create Bill | Bill Management System{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Bills</title>
-    <link rel="stylesheet" href="{% static 'billing/css/create-bill.css' %}">
-</head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'billing/css/create-bill.css' %}">
+{% endblock %}
 
-<body>
-    <nav>
-        <a href="#">link</a>
-    </nav>
-    <main>
-        <h1>Create new bills</h1>
-        <b>From:</b>
-        <div class="top-section">
-            <div class="own-details">
-                <p>Blue Sky Suppliers</p>
-                <p>Syange</p>
-                <p>Lamjung, 33600</p>
-                <p>9876543210, bill@bluesky.com</p>
-            </div>
-            <div class="right-date">
-                <p>Date: </p>
-                <p>Invoice no.: #</p>
-            </div>
+{% block content %}
+<main>
+    <h1>Create new bills</h1>
+    <b>From:</b>
+    <div class="top-section">
+        <div class="own-details">
+            <p>Blue Sky Suppliers</p>
+            <p>Syange</p>
+            <p>Lamjung, 33600</p>
+            <p>9876543210, bill@bluesky.com</p>
         </div>
-        <hr>
-        <b>To:</b>
-        <div class="billed-to">
-            <label for="customer-name">customer name</label>
-            <input type="text" name="customer-name" class="customer-details" id="customer">
-            <div id="customers">
-                <ul id="customers-list" style="display: none;">
-                </ul>
-            </div>
-            <label for="customer-pan">Customer pan</label>
-            <input type="text" name="customer-pan" class="customer-details">
+        <div class="right-date">
+            <p>Date: </p>
+            <p>Invoice no.: #</p>
         </div>
-        <hr>
-        <h2>Bill Details</h2>
-        <input type="text" id="items-search">
-        <div id="items">
-            <ul id="items-list" style="display: none;"></ul>
+    </div>
+    <hr>
+    <b>To:</b>
+    <div class="billed-to">
+        <label for="customer-name">customer name</label>
+        <input type="text" name="customer-name" class="customer-details" id="customer">
+        <div id="customers">
+            <ul id="customers-list" style="display: none;">
+            </ul>
         </div>
-        <form method="post">
-            {% csrf_token %}
-            <input type="email" name="customer-email" id="customer-email" hidden>
-            <table id="bill-table">
-                {% if message %}
-                <p>{{message}}</p>
-                {% endif %}
-                <tr>
-                    <th class="sn">S.N.</th>
-                    <th class="item-name">Item Name</th>
-                    <th class="quantity">Quantity</th>
-                    <th class="price">Price</th>
-                    <th class="total">Total</th>
-                </tr>
-            </table>
-            <input type="submit" value="Create Bill">
-        </form>
-    </main>
-    <script src="{% static 'billing/js/create-bill.js' %}"></script>
-    <script src="{% static 'billing/js/items-search.js' %}"></script>
-</body>
+        <label for="customer-pan">Customer pan</label>
+        <input type="text" name="customer-pan" class="customer-details">
+    </div>
+    <hr>
+    <h2>Bill Details</h2>
+    <input type="text" id="items-search">
+    <div id="items">
+        <ul id="items-list" style="display: none;"></ul>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <input type="email" name="customer-email" id="customer-email" hidden>
+        <table id="bill-table">
+            {% if message %}
+            <p>{{message}}</p>
+            {% endif %}
+            <tr>
+                <th class="sn">S.N.</th>
+                <th class="item-name">Item Name</th>
+                <th class="quantity">Quantity</th>
+                <th class="price">Price</th>
+                <th class="total">Total</th>
+            </tr>
+        </table>
+        <input type="submit" value="Create Bill">
+    </form>
+</main>
+<script src="{% static 'billing/js/create-bill.js' %}"></script>
+<script src="{% static 'billing/js/items-search.js' %}"></script>
+<script src="{% static 'billing/js/navbar.js' %}"></script>
 
-</html>
+{% endblock %}

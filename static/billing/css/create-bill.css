@@ -14,10 +14,12 @@ nav{
     width: 15%;
     position: sticky;
     top: 0;
-}
-
-::-webkit-scrollbar {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 30px;
+    align-items: center;
 }
 
 .top-section{
@@ -39,7 +41,65 @@ nav{
     flex-direction: column;
 }
 
-.customer-details{
+.customer-details, #customers, #items{
     min-width: 300px;
     max-width: 500px;
+}
+
+/* customers drop down selector */
+#customers{
+    position: absolute;
+    z-index: 1;
+    margin-top: 45px;
+}
+
+#customers-list{
+    background-color: white;
+    max-width: 500px;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+#customers-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+#customers-list li{
+    list-style: none;
+    padding: 5px;
+    border-bottom: 0.5px solid #858585;
+    cursor: pointer;
+}
+
+#customers-list li:hover{
+    background-color: #858585;
+}
+
+/* css for list of items */
+#items{
+    position: absolute;
+    z-index: 1;
+}
+
+#items-list{
+    background-color: white;
+    max-width: 500px;
+    overflow-y: auto;
+    max-height: 200px;
+    width: 400px;
+}
+
+#items-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+#items-list li{
+    list-style: none;
+    padding: 5px;
+    border-bottom: 0.5px solid #858585;
+    cursor: pointer;
+}
+
+#items-list li:hover{
+    background-color: #858585;
 }

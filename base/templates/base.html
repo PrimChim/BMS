@@ -5,13 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Home | Bill Management System{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
     {% block css %}{% endblock %}
 </head>
 <body>
-    {% include 'navbar.html' %}
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_staff %}
+            {% include 'navbar_admin.html' %}
+        {% else %}
+            {% include 'navbar.html' %}
+        {% endif %}
+    {% else %}
+        {% include 'navbar.html' %}
+    {% endif %}
+
     {% block content %}
     {% endblock %}
+
     {% include 'footer.html' %}
 </body>
 </html>
