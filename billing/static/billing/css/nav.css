@@ -1,0 +1,74 @@
+.collapse{
+    background-color: bisque;
+    height: 100vh;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 30px;
+    align-items: center;
+}
+
+.collapse li{
+    list-style: none;
+    margin-bottom: 20px;
+    padding: 12px;
+}
+
+.collapse li a{
+    text-decoration: none;
+    padding: 12px;
+    color: rgb(112, 112, 112);
+}
+
+.collapse li a:hover{
+    background-color: #5741bd;
+    border-radius: 4px;
+    color: whitesmoke;
+}
+
+.collapse li a.active{
+    background-color: #5741bd;
+    border-radius: 4px;
+    color: whitesmoke;
+}
+
+.title{
+    margin-top: 90px;
+}
+
+.burger{
+    background-color: bisque;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    margin-left: 200px;
+    border: none;
+    border-radius: 4px;
+    color: blueviolet;
+    font-size: 45px;
+    transition: 0.5s;
+    border: #5741bd 2px solid;
+}
+
+.burger:hover{
+    background-color: rgba(0, 0, 0, 0.6);
+    color: wheat;
+}
+
+.collapsed{
+    width: 50px;
+}
+
+/* .collapsed li a{
+    color: rgba(0, 0, 0, 0);
+} */
+
+.closed{
+    margin: 0;
+}

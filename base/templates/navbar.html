@@ -1,14 +1,14 @@
-<!-- navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav>
+    <div class="collapse collapsed" id="nav">
+        <button class="burger closed" id="burger" onClick="changeIcon()">
+            &#9776
+        </button>
+        <h1 class="title">BMS</h1>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-
-        <div class="navbar-nav">
-
-            <a class="nav-item nav-link" href="{% url 'users:register' %}">Register</a>
-
-        </div>
-
+        <ul>
+            <li><a href="{% url 'billing:create-bill' %}" id="create-bill">Create Bill</a></li>
+            <li><a href="{% url 'billing:view-bills-frontend' %}" id="view-bills">View Bills</a></li>
+        </ul>
+        <a href="/">Profile</a>
     </div>
-
 </nav>
