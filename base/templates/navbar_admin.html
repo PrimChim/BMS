@@ -1,9 +1,15 @@
 <nav>
-    <h1>BMS Admin</h1>
-    <ul>
-        <li><a href="{% url 'billing:create-bill' %}" id="create-bill">Users</a></li>
-        <li><a href="{% url 'billing:view-bills-frontend' %}" id="view-bills">Bills</a></li>
-        <li><a href="{% url 'billing:view-bills-frontend' %}" id="view-bills">Items</a></li>
-    </ul>
-    <a href="/">Profile</a>
+    <div class="collapse" id="nav">
+        <button class="burger open" id="burger" onClick="changeIcon()">
+            &times
+        </button>
+        <h1 class="title">BMS Admin</h1>
+        <ul>
+            <li><a href="{% url 'users:general' slug='users' %}" id="users-nav-button">Users</a></li>
+            <li><a href="{% url 'users:general' slug='customers' %}" id="customers-nav-button">Customers</a></li>
+            <li><a href="{% url 'users:general' slug='bills' %}" id="bills-nav-button">Bills</a></li>
+            <li><a href="{% url 'users:general' slug='items' %}" id="items-nav-button">Items</a></li>
+        </ul>
+        <a href="/">Profile</a>
+    </div>
 </nav>

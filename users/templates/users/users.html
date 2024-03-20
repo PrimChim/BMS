@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Users | Bill Management System{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users/css/users.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Users</h1>
+    <table class="table table-striped" id="user-table">
+        <thead>
+            <tr>
+                <th>S.N.</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <tr>
+                <td></td>
+                <td>primchim</td>
+                <td>gurungpritam922@gmail.com</td>
+                <td>admin</td>
+                <td>edit delete</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'users/js/users.js' %}"></script>
+{% endblock %}

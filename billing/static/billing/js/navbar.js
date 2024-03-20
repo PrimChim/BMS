@@ -13,6 +13,8 @@ switch(uri) {
         break
 };
 
+document.getElementById(uri.replace('/','')+"-nav-button").classList.add('active');
+
 function changeIcon(){
     if (button.classList.contains('closed')){
 
