@@ -213,4 +213,6 @@ def user_delete(request, pk):
 # api views end here
 # front end views start here
 def general_view(request, slug):
+    if slug == '':
+        return render(request, 'users/index.html')
     return render(request, 'users/{}.html'.format(slug))

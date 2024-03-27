@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Judson:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    --font-family: "Judson", serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 8vh;
+    background-color: #363B4D;
+    color: white;
+    font-family: var(--font-family);
+    font-size: 20px;
+}
+
+.right-section {
+    display: flex;
+    justify-content: space-around;
+    width: 20%;
+}
+
+.right-section li {
+    list-style: none;
+}
+
+.right-section li a {
+    text-decoration: none;
+    color: white;
+}
+
+#login-button {
+    padding: 20px;
+    background-color: #EB6639;
+    border: none;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+#login-button:hover {
+    background-color: #FF7F4D;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    background-color: #F0F0F0;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: var(--font-family);
+    font-size: 50px;
+}
+
+#hero-section{
+    margin-top: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    min-height: 500px;
+    background-color: aqua;
+}
+
+#features-section{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    min-height: 500px;
+    background-color: #F0F0F0;
+}
+
+#about-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    min-height: 500px;
+    background-color: aqua;
+}
+
+/* make footer stay at bottom when scroll is max */
+
+/* footer {
+    position: fixed;
+    bottom: 0;
+} */
+footer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    min-height: 100px;
+    background-color: #363B4D;
+    color: white;
+    font-family: var(--font-family);
+    font-size: 20px;
+}

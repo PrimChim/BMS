@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khata | Bill Management System</title>
+    <link rel="stylesheet" href="{% static 'users/css/index.css' %}">
+</head>
+
+<body>
+    <nav>
+        <a href="/">
+            <img src="{% static 'users/logo/2.png' %}" alt="khata-logo" height="80px" width="80px">
+        </a>
+        <ul class="right-section">
+            <li><a href="#features-section">Features</a></li>
+            <li><a href="#about-section">About</a></li>
+            <li><a href="{% url 'users:general' slug='login' %}" id="login-button">Log In</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="hero-section">
+            <div class="hero-content">
+                <h1>Khata</h1>
+                <p>Bill Management System</p>
+                <a href="{% url 'users:general' slug='register' %}" id="register-button">Register</a>
+            </div>
+        </section>
+
+        <section id="features-section">
+            <h2>Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <img src="{% static 'users/logo/1.png' %}" alt="feature-icon">
+                    <h3>Easy to Use</h3>
+                    <p>Khata is very easy to use. You can easily manage your bills and payments.</p>
+                </div>
+                <div class="feature">
+                    <img src="{% static 'users/logo/2.png' %}" alt="feature-icon">
+                    <h3>Secure</h3>
+                    <p>Your data is secure with us. We use the latest security technologies to protect your data.</p>
+                </div>
+                <div class="feature">
+                    <img src="{% static 'users/icons/3.png' %}" alt="feature-icon">
+                    <h3>Fast</h3>
+                    <p>Khata is very fast. You can easily manage your bills and payments.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-section">
+            <h2>About</h2>
+            <div class="about-content">
+                <img src="{% static 'users/logo/2.png' %}" alt="khata-logo" height="200px" width="200px">
+                <p>Khata is a bill management system. You can easily manage your bills and payments with Khata. Khata is
+                    very easy to use and secure. Your data is secure with us. We use the latest security technologies to
+                    protect your data.</p>
+            </div>
+        </section>
+        <footer>
+            <!-- date of this year using js -->
+    
+            <p>&copy;
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+                Khata. All Rights Reserved.
+            </p>
+        </footer>
+    </main>
+
+
+</body>
+
+</html>

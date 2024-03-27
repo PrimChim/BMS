@@ -8,20 +8,6 @@ body{
     display: flex;
 }
 
-nav{
-    background-color: bisque;
-    height: 100vh;
-    width: 15%;
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 30px;
-    align-items: center;
-}
-
 .top-section{
     display: flex;
     justify-content: space-between;
