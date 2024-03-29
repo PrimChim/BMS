@@ -16,6 +16,9 @@
         {% if request.user.is_superuser %}
             {% include 'navbar_admin.html' %}
         {% endif %}
+        {% if request.user.is_staff == False %}
+            {% include 'navbar.html' %}
+        {% endif %}
     {% else %}
         {% include 'navbar.html' %}
     {% endif %}
@@ -25,6 +28,7 @@
 
     {% include 'footer.html' %}
     <script src="{% static 'billing/js/navbar.js' %}"></script>
+    <script src="{% static 'users/js/logout.js' %}"></script>
     {% block js %}{% endblock %}
 </body>
 </html>

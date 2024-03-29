@@ -16,6 +16,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,3 +125,37 @@ LOGOUT_REDIRECT_URL = '/login'
 
 # URL to redirect to login page
 LOGIN_URL = '/login'
+
+#==================jaxmin settings==================#
+JAZMIN_SETTINGS = {
+    "site_title": "Billing System",
+    "site_header": "Billing System",
+    "site_logo": "static/users/logo/1.png",
+    "welcome_sign": "Welcome to Khata",
+    "copyright": "Khata",
+    "show_ui_builder": False,
+    "changeform_format": "horizontal_tabs",
+    "related_modal_active": False,
+    "navigation_expanded": True,
+    "navigation_collapsed": False,
+    "site_style": "sidebar",
+    "top_navbar": True,
+    "show_apps": True,
+    "related_modal_active": False,
+    "show_user_actions": True,
+    "user_menu": [
+        {"name": "Change Password", "url": "admin:password_change"},
+        {"name": "Logout", "url": "admin:logout"},
+    ],
+    "show_app_list": True,
+    "app_list": [
+        {"name": "Users", "icon": "fas fa-users", "models": [
+            {"name": "User", "icon": "fas fa-user", "url": "admin:users_user_changelist"},
+            {"name": "Profile", "icon": "fas fa-user", "url": "admin:users_profile_changelist"},
+        ]},
+        {"name": "Billing", "icon": "fas fa-money-bill", "models": [
+            {"name": "Invoice", "icon": "fas fa-file-invoice", "url": "admin:billing_invoice_changelist"},
+            {"name": "Payment", "icon": "fas fa-money-check", "url": "admin:billing_payment_changelist"},
+        ]},
+    ],
+}

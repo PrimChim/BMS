@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -51,9 +51,22 @@ def login_api(request):
         # If the user is authenticated, then login the user
         if user is not None:
             login(request, user)
-            return Response({'success': 'User Logged in Successfully'}, status=status.HTTP_200_OK)
+            if user.is_staff:
+                return Response({'success': 'Admin Logged in Successfully', 'superuser': 1}, status=status.HTTP_200_OK)
+            return Response({'success': 'User Logged in Successfully', 'superuser': 0}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
+
+@login_required
+@api_view(['GET'])
+def logout_api(request):
+    # If the request is a GET request, then the user is trying to logout
+    if request.method == 'GET':
+        # Log the user out
+        logout(request)
+        return Response({'success': 'User Logged out Successfully'}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
 

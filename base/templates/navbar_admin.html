@@ -10,6 +10,9 @@
             <li><a href="{% url 'users:general' slug='bills' %}" id="bills-nav-button">Bills</a></li>
             <li><a href="{% url 'users:general' slug='items' %}" id="items-nav-button">Items</a></li>
         </ul>
-        <a href="/">Profile</a>
+        <ul>
+            <li><a href="/">Profile</a></li>
+            <li><form action="/api/logout" method="get" id="logout-form"><input type="submit" value="Log Out"></form></li>
+        </ul>
     </div>
 </nav>

@@ -1,26 +1,30 @@
-{% extends 'base.html' %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Login | Bill Management System{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Khata</title>
+    <link rel="stylesheet" href="{% static 'users/css/login.css' %}">
+</head>
 
-{% block css %}
-<link rel="stylesheet" href="{% static 'users/css/login.css' %}">
-{% endblock %}
+<body>
+    <form method="post" id="login-form">
+        {% csrf_token %}
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
+        <h1>Log in to your account</h1>
+        <label for="username" class="user-label">Username</label>
+        <input type="text" name="username" required>
+        <div class="forgot-label">
+            <label for="password">Password</label><a href="">Forgot password?</a>
+        </div>
+        <input type="password" name="password" required>
+        <input type="submit" value="Login">
+    </form>
+    <script src="{% static '/users/js/login.js' %}"></script>
+</body>
 
-{% block content %}
-<!-- login form with username and password -->
-<form action="login" method="post">
-    {% csrf_token %}
-    {% if error %}
-    <p>{{ error }}</p>
-    {% endif %}
-    <h1>Log in to your account</h1>
-    <label for="username" class="user-label">Username</label>
-    <input type="text" name="username" required>
-    <div class="forgot-label">
-        <label for="password">Password</label><a href="">Forgot password?</a>
-    </div>
-    <input type="password" name="password" required>
-    <input type="submit" value="Login">
-</form>
-{% endblock %}
+</html>

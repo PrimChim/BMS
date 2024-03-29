@@ -9,6 +9,9 @@
             <li><a href="{% url 'billing:create-bill' %}" id="create-bill">Create Bill</a></li>
             <li><a href="{% url 'billing:view-bills-frontend' %}" id="view-bills">View Bills</a></li>
         </ul>
-        <a href="/">Profile</a>
+        <ul>
+            <li><a href="/">Profile</a></li>
+            <li><form action="/api/logout" method="get" id="logout-form"><input type="submit" value="Log Out"></form></li>
+        </ul>
     </div>
 </nav>
