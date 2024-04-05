@@ -1,16 +1,17 @@
 from pathlib import Path
 import os
 
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u(un(6_r$o4785r6$0onu9*!19i3r4hg=!-=qzw1lvausdejfv'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -27,7 +28,28 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'billing',
+    'corsheaders',
+    'compressor',
 ]
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'users/static')
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#==================Compress settings==================#
+COMPRESS_ROOT = BASE_DIR / 'static'
+ 
+COMPRESS_ENABLED = True
+ 
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -37,7 +59,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'base.urls'
 
@@ -101,24 +127,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'users/static'),
-    os.path.join(BASE_DIR, 'billing/static'),
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# URL to redirect to after login
-LOGIN_REDIRECT_URL = '/dashboard'
 
 # URL to redirect to after logout to users:login
 LOGOUT_REDIRECT_URL = '/login'
@@ -145,7 +157,7 @@ JAZMIN_SETTINGS = {
     "show_user_actions": True,
     "user_menu": [
         {"name": "Change Password", "url": "admin:password_change"},
-        {"name": "Logout", "url": "admin:logout"},
+        {"name": "Logout", "url": "users:logout_api"},
     ],
     "show_app_list": True,
     "app_list": [
@@ -159,3 +171,11 @@ JAZMIN_SETTINGS = {
         ]},
     ],
 }
+
+#==================email settings==================#
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')

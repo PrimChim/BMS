@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 # for customer API
 from .models import Customer
@@ -136,96 +137,28 @@ def delete_customer(request, pk):
     else:
         return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
 
-# all users API, requires superuser login to view all users
-@api_view(['GET'])
-@login_required
-def all_users(request):
-    if not request.user.is_superuser:
-        return Response({'error': 'You are not authorized to view all users'}, status=status.HTTP_403_FORBIDDEN)
-    users = User.objects.all()
-    data = []
-    for user in users:
-        user_data = {
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'is_staff': user.is_staff,
-            'is_superuser': user.is_superuser
-        }
-        data.append(user_data)
-    return Response(data)
 
-# user detail API, requires superuser login to view user detail
-@api_view(['GET'])
-@login_required
-def user_detail(request, pk):
-    if not request.user.is_superuser:
-        return Response({'error': 'You are not authorized to view user detail'}, status=status.HTTP_403_FORBIDDEN)
-    try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
-        return Response({'error': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
-    user_data = {
-        'id': user.id,
-        'username': user.username,
-        'email': user.email,
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-        'is_staff': user.is_staff,
-        'is_superuser': user.is_superuser
-    }
-    return Response(user_data)
+#=========================Front End Views===========================#
 
-# user update API, requires superuser login to update user
-@api_view(['PUT'])
-@login_required
-def user_update(request, pk):
-    if not request.user.is_superuser:
-        return Response({'error': 'You are not authorized to update user'}, status=status.HTTP_403_FORBIDDEN)
-    try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
-        return Response({'error': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'PUT':
-        data = request.data.copy()
-        username = data.get('username')
-        email = data.get('email')
-        first_name = data.get('first_name')
-        last_name = data.get('last_name')
-        is_staff = data.get('is_staff')
-        is_superuser = data.get('is_superuser')
-        user.username = username
-        user.email = email
-        user.first_name = first_name
-        user.last_name = last_name
-        user.is_staff = is_staff
-        user.is_superuser = is_superuser
-        user.save()
-        return Response({'success': 'User Updated Successfully'}, status=status.HTTP_200_OK)
-    else:
-        return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
-
-# user delete API, requires superuser login to delete user
-@api_view(['DELETE'])
-@login_required
-def user_delete(request, pk):
-    if not request.user.is_superuser:
-        return Response({'error': 'You are not authorized to delete user'}, status=status.HTTP_403_FORBIDDEN)
-    try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
-        return Response({'error': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'DELETE':
-        user.delete()
-        return Response({'success': 'User Deleted Successfully'}, status=status.HTTP_200_OK)
-    else:
-        return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
-
-# api views end here
-# front end views start here
 def general_view(request, slug):
     if slug == '':
         return render(request, 'users/index.html')
     return render(request, 'users/{}.html'.format(slug))
+
+from django.template.loader import render_to_string
+from base.settings import EMAIL_HOST_USER
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = User.objects.filter(email=email).first()
+        if user:
+            subject = 'Password Reset'
+            # send the email template from reset-password.html
+            message = render_to_string('users/mailformat/reset-password.html',{'username': user.username, 'resetLink': 'http://localhost:8000/reset-password'})
+            from_email = EMAIL_HOST_USER
+            to_list = [email]
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            messages.success(request, 'Password reset link sent to your email')
+        else:
+            messages.error(request, 'Email not found')
+    return render(request, 'users/forgot-password.html')

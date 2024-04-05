@@ -81,3 +81,7 @@ input[type="submit"]{
     margin-top: 20px;
     border-radius: 4px;
 }
+
+input[type="submit"]:hover {
+    background-color: #FF7F4D;
+}

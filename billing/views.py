@@ -78,6 +78,7 @@ def get_items(request):
 
 # billing frontend views
 
+@login_required
 def create_bill(request):
     if request.method == 'POST':
         customer_email = request.POST.get('customer-email')
