@@ -101,5 +101,9 @@ def create_bill(request):
         return render(request, 'billing/create-bill.html',{'message':'Bill Created Successfully!!!'})
     return render(request, 'billing/create-bill.html')
 
+@login_required
+def dashboard(request):
+    return render(request, 'billing/dashboard.html')
+
 def view_bills_frontend(request):
     return render(request, 'billing/view-bills.html')

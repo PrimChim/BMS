@@ -1,6 +1,6 @@
 let itemsSearch = document.getElementById('items-search');
 let billTable = document.getElementById('bill-table');
-let itemsList = document.getElementById('items-list');
+let itemsSearchResults = document.getElementById('items-search-result');
 
 // fetch all items and store them in localstorage
 function fetchItems() {
@@ -20,27 +20,24 @@ if (!localStorage.getItem('items')) {
 
 // search items dom manipulation
 itemsSearch.addEventListener('input', function () {
-    itemsList.style.display = 'block';
+    itemsSearchResults.style.display = 'block';
 
     let items = JSON.parse(localStorage.getItem('items'));
     let filteredItems = items.filter(item => item.name.toLowerCase().includes(this.value.toLowerCase()));
     if (filteredItems.length == 0) {
         fetchItems();
-        itemsList.style.display = 'none';
+        itemsSearchResults.style.display = 'none';
     }
-    itemsList.innerHTML = '';
+    itemsSearchResults.innerHTML = '';
     filteredItems.forEach(item => {
-        itemsList.innerHTML += `<li onClick="setItem('${item.name}', ${item.price})">
-        ${item.name}
-        Rs.${item.price}
-        </li>`;
+        itemsSearchResults.innerHTML += `<div class='item' onclick="setItem('${item.name}', ${item.price})">` + item.name + '</div>';
     });
 })
 
 // items fade out
 itemsSearch.addEventListener('focusout', function () {
     setTimeout(() => {
-        itemsList.style.display = 'none';
+        itemsSearchResults.style.display = 'none';
     }, 200);
 })
 
@@ -48,19 +45,19 @@ itemsSearch.addEventListener('focusout', function () {
 function setItem(name, price) {
     let sn = billTable.rows.length;
 
-    if(name == "Digital 16' External Monitor"){
+    if (name == "Digital 16' External Monitor") {
         name = "Digital 16\' External Monitor";
     }
 
     billTable.innerHTML += `<tr>
-        <td class='sn'>${sn}</td>
-        <td class='item-name'><input type="text" value="${name}" name="item-name" class="item-name" readonly></td>
-        <td class='quantity'><input type="number" name='item-quantity' value='1'></td>
-        <td class='price'><input type="number" name='item-price' value="${price}" readonly></td>
-        <td clas='total'><input type='number' name='item-total' value=${price} readonly></td>
-        </tr>`;
+        <td class="w-1/3 text-left py-3 px-4">${name}</td>
+        <td class="w-1/3 text-left py-3 px-4"><input type="number" name="item-quantity" value="1"></td>
+        <td class="w-1/3 text-left py-3 px-4">${price}</td>
+        <td class="text-left py-3 px-4">${price}</td>
+        <td class="text-left py-3 px-4"><button onClick='removeItem(this)'>Remove</button></td>
+    </tr>`;
     itemsSearch.value = '';
-    itemsList.style.display = 'none';
+    itemsSearchResults.style.display = 'none';
     calculateTotalOnChange();
 }
 

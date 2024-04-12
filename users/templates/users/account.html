@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ user.username }} | Account {% endblock %}
+
+{% block content %}
+<div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+    <main class="w-full flex-grow p-6">
+        <h1 class="text-3xl text-black pb-6">Account</h1>
+
+        <div class="w-full mt-6">
+            <div class="bg-white overflow-auto">
+                <div class="flex items
+                    -center justify-between">
+                    <div class="w-full mt-6">
+                        <form class="flex flex-col p-5">
+                            <div class="mb-4">
+                                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                                <input type="text" id="username" name="username" value="{{ user.username }}"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                                <input type="email" id="email" name="email" value="{{ user.email }}"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                            </div>
+                            <div class="mb-4">
+                                <label for="first_name" class="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+                                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                            </div>
+                            <div class="mb-4">
+                                <label for="last_name" class="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                            </div>
+                            <div class="mb-4">
+                                <label for="date_joined" class="block text-gray-700 text-sm font-bold mb-2">Date Joined</label>
+                                <input type="text" id="date_joined" name="date_joined" value="{{ user.date_joined }}"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                            </div>
+                            <div class="mb-4">
+                                <label for="last
+                                    -login" class="block text-gray-700 text-sm font-bold mb-2">Last Login</label>
+                                <input type="text" id="last-login" name="last-login" value="{{ user.last_login }}"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                            </div>
+                            <div class="mb-4">
+                                <button id="save-changes-btn"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    Save Changes
+                                </button>
+                                <button id="delete-account-btn"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    Delete Account
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

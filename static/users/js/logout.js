@@ -1,7 +1,6 @@
 let logoutForm = document.getElementById('logout-form');
 
-logoutForm.addEventListener('submit', function (e) {
-    e.preventDefault();
+function logout() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/logout', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -16,4 +15,11 @@ logoutForm.addEventListener('submit', function (e) {
         }
     };
     xhr.send();
-});
+}
+
+if (logoutForm) {
+    logoutForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        logout();
+    });
+}

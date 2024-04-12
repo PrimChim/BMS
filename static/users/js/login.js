@@ -17,11 +17,13 @@ loginForm.addEventListener('submit', function (e) {
                 if (response.superuser) {
                     window.location.href = '/admin/';
                 } else {
-                    window.location.href = '/billing/create-bill/';
+                    window.location.href = '/billing/dashboard';
                 }
             } else {
                 alert(response.message);
             }
+        } else if (xhr.readyState === 4 && xhr.status === 403) {
+            window.location.href = '/billing/dashboard';
         }
     };
     xhr.send(JSON.stringify(data));
