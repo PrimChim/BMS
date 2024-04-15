@@ -10,6 +10,7 @@ django-jazzmin==2.6.1
 django-rest-knox==4.2.0
 djangorestframework==3.14.0
 Markdown==3.5.1
+nepali-datetime==1.0.8.2
 pycparser==2.21
 python-decouple==3.8
 pytz==2023.3.post1

@@ -3,6 +3,10 @@
 
 {% block title %}Create Bill | Bill Management System{% endblock %}
 
+{% block css %}
+<link href="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.1.min.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
 {% block content %}
 
 <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
@@ -36,7 +40,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="bill_date" class="block text-gray-700 text-sm font-bold mb-2">Bill Date</label>
-                        <input type="date" id="bill_date" name="bill_date"
+                        <input type="text" id="bill_date" name="bill_date"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="mb-4">
@@ -98,5 +102,8 @@
 
 {% block js %}
 <script src="{% static 'billing/js/items-search.js' %}"></script>
+
+<script src="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.1.min.js" type="text/javascript"></script>
+<script src="{% static 'billing/js/datepicker.js' %}"></script>
 <script src="{% static 'billing/js/create-bill.js' %}"></script>
 {% endblock %}
