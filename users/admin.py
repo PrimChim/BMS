@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer
+from .models import Customer, Otp
 
 # Register your models here.
 
@@ -12,4 +12,10 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ('name', 'pan', 'email')
     list_filter = ('name', 'pan', 'email', 'address')
 
+class OtpAdmin(admin.ModelAdmin):
+    list_display = ('email', 'otp', 'date')
+    search_fields = ('email', 'otp')
+    list_filter = ('email', 'otp', 'date')
+
 admin.site.register(Customer, CustomerAdmin)
+admin.site.register(Otp, OtpAdmin)

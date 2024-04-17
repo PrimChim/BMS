@@ -12,14 +12,11 @@
 <body>
     <form method="post" id="login-form">
         {% csrf_token %}
-        {% if error %}
-        <p>{{ error }}</p>
-        {% endif %}
         <h1>Log in to your account</h1>
         <label for="username" class="user-label">Username</label>
         <input type="text" name="username" required>
         <div class="forgot-label">
-            <label for="password">Password</label><a href="">Forgot password?</a>
+            <label for="password">Password</label><a href="{% url 'users:general' slug='forgot-password' %}">Forgot password?</a>
         </div>
         <input type="password" name="password" required>
         <input type="submit" value="Login">

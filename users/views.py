@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 
 # for customer API
-from .models import Customer
+from .models import Customer, Otp
 from .serializers import CustomerSerializer
 
 #register api
@@ -136,6 +136,55 @@ def delete_customer(request, pk):
         return Response({'success': 'Customer Deleted Successfully'}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
+
+import random
+
+@api_view(['POST'])
+def forgot_password_api(request):
+    if request.method == 'POST':
+        email = request.data.get('email')
+        user = User.objects.filter(email=email).first()
+        if user:
+            Otp.objects.filter(email=email).delete()
+
+            otp = ''.join(random.choices('0123456789', k=6))
+            Otp.objects.create(email=email, otp=otp)
+
+            subject = 'Password Reset'
+            message = render_to_string('users/mailformat/reset-password.html', {'username': user.username, 'otp': otp})
+            from_email = EMAIL_HOST_USER
+            to_list = [email]
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
+
+            return Response({'success': 'Password reset OTP sent to your email'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Email not found'}, status=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response({'error': 'Invalid Request Method'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def reset_password_api(request):
+    if request.method == 'POST':
+        email = request.data.get('email')
+        otp = request.data.get('otp')
+        password = request.data.get('password')
+
+        print(request.data)
+        user = User.objects.filter(email=email).first()
+        if user:
+            try:
+                otp_obj = Otp.objects.filter(email=email, otp=otp).first()
+            except Otp.DoesNotExist:
+                return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+            if otp_obj:
+                user.set_password(password)
+                user.save()
+                otp_obj.delete()
+                return Response({'success': 'Password reset successfully'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'Email not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 #=========================Front End Views===========================#

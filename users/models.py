@@ -10,3 +10,15 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
+
+class Otp(models.Model):
+    email = models.EmailField()
+    otp = models.CharField(max_length=6)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.email)
+
+    def is_expired(self):
+        expiration_time = self.date + timezone.timedelta(minutes=3)
+        return timezone.now() > expiration_time
