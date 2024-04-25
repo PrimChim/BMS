@@ -154,7 +154,7 @@ def forgot_password_api(request):
             message = render_to_string('users/mailformat/reset-password.html', {'username': user.username, 'otp': otp})
             from_email = EMAIL_HOST_USER
             to_list = [email]
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            # send_mail(subject, message, from_email, to_list, fail_silently=True)
 
             return Response({'success': 'Password reset OTP sent to your email'}, status=status.HTTP_200_OK)
         else:

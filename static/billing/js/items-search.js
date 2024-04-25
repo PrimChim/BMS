@@ -20,24 +20,38 @@ if (!localStorage.getItem('items')) {
 
 // search items dom manipulation
 itemsSearch.addEventListener('input', function () {
-    itemsSearchResults.style.display = 'block';
-
     let items = JSON.parse(localStorage.getItem('items'));
     let filteredItems = items.filter(item => item.name.toLowerCase().includes(this.value.toLowerCase()));
     if (filteredItems.length == 0) {
         fetchItems();
-        itemsSearchResults.style.display = 'none';
+        itemsSearchResults.innerHTML = 'No items found. Please try again.';
     }
     itemsSearchResults.innerHTML = '';
     filteredItems.forEach(item => {
-        itemsSearchResults.innerHTML += `<div class='item' onclick="setItem('${item.name}', ${item.price})">` + item.name + '</div>';
+        itemsSearchResults.innerHTML += `
+        <li class="h-8 hover:bg-slate-600" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
+    });
+})
+
+// items fade in
+itemsSearch.addEventListener('focus', function () {
+    let items = JSON.parse(localStorage.getItem('items'));
+    let filteredItems = items.filter(item => item.name.toLowerCase().includes(this.value.toLowerCase()));
+    if (filteredItems.length == 0) {
+        fetchItems();
+        itemsSearchResults.innerHTML = 'No items found. Please try again.';
+    }
+    itemsSearchResults.innerHTML = '';
+    filteredItems.forEach(item => {
+        itemsSearchResults.innerHTML += `
+        <li class="h-8 hover:bg-slate-600" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
     });
 })
 
 // items fade out
 itemsSearch.addEventListener('focusout', function () {
     setTimeout(() => {
-        itemsSearchResults.style.display = 'none';
+        itemsSearchResults.innerHTML = '';
     }, 200);
 })
 
@@ -50,14 +64,14 @@ function setItem(name, price) {
     }
 
     billTable.innerHTML += `<tr>
-        <td class="w-1/3 text-left py-3 px-4">${name}</td>
-        <td class="w-1/3 text-left py-3 px-4"><input type="number" name="item-quantity" value="1"></td>
-        <td class="w-1/3 text-left py-3 px-4">${price}</td>
-        <td class="text-left py-3 px-4">${price}</td>
-        <td class="text-left py-3 px-4"><button onClick='removeItem(this)'>Remove</button></td>
+        <td class="w-1/2 text-left py-3 px-4 bg-slate-600">${name}</td>
+        <td class="w-1/4 text-left py-3 px-4 bg-slate-500">1</td>
+        <td class="w-1/4 text-left py-3 px-4 bg-slate-600">${price}</td>
+        <td class="w-1/4 text-left py-3 px-4 bg-slate-500">${price}</td>
+        <td class="w-1/4 text-left py-3 px-4 bg-slate-600"><button onClick='removeItem(this)'>Remove</button></td>
     </tr>`;
     itemsSearch.value = '';
-    itemsSearchResults.style.display = 'none';
+    itemsSearchResults.innerHTML = '';
     calculateTotalOnChange();
 }
 
