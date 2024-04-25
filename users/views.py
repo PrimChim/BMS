@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from base.settings import EMAIL_HOST_USER
 
 # for customer API
 from .models import Customer, Otp
@@ -186,28 +188,30 @@ def reset_password_api(request):
         else:
             return Response({'error': 'Email not found'}, status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['POST'])
+def change_profile_details(request):
+    if request.method == 'POST':
+        data = request.data.copy()
+        user = request.user
+        user.username = data.get('username')
+        user.first_name = data.get('first_name')
+        user.last_name = data.get('last_name')
+        user.email = data.get('email')
+        user.save()
+        return Response({'success': 'Profile Updated Successfully'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
 
 #=========================Front End Views===========================#
 
 def general_view(request, slug):
+    slugs = ['account', 'forgot-password', 'index', 'login', 'reset-password']
+
+    if slug not in slugs:
+        return render(request, '404.html')
     if slug == '':
         return render(request, 'users/index.html')
-    return render(request, 'users/{}.html'.format(slug))
 
-from django.template.loader import render_to_string
-from base.settings import EMAIL_HOST_USER
-def forgot_password(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        user = User.objects.filter(email=email).first()
-        if user:
-            subject = 'Password Reset'
-            # send the email template from reset-password.html
-            message = render_to_string('users/mailformat/reset-password.html',{'username': user.username, 'resetLink': 'http://localhost:8000/reset-password'})
-            from_email = EMAIL_HOST_USER
-            to_list = [email]
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
-            messages.success(request, 'Password reset link sent to your email')
-        else:
-            messages.error(request, 'Email not found')
-    return render(request, 'users/forgot-password.html')
+    if slug == 'login' and request.user.is_authenticated:
+        return redirect('billing:dashboard')
+    return render(request, 'users/{}.html'.format(slug))

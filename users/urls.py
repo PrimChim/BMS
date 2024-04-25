@@ -1,6 +1,6 @@
 # urls.py for users app
 from django.urls import path
-from .views import register_api, login_api, general_view, get_customers, add_customer, logout_api, forgot_password, forgot_password_api, reset_password_api
+from .views import register_api, login_api, general_view, get_customers, add_customer, logout_api, forgot_password_api, reset_password_api, change_profile_details
 
 app_name = 'users'
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     path('api/logout', logout_api, name='logout_api'),
     path('api/forgot-password', forgot_password_api, name='forgot_password_api'),
     path('api/reset-password', reset_password_api, name='reset_password_api'),
+    path('api/change-profile-details', change_profile_details, name='change_profile_details'),
     path('customers', get_customers, name='customers-api'),
     path('add-customer', add_customer, name='add-customer'),
     

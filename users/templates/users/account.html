@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} {{ user.username }} | Account {% endblock %}
 
@@ -12,7 +13,8 @@
                 <div class="flex items
                     -center justify-between">
                     <div class="w-full mt-6">
-                        <form class="flex flex-col p-5">
+                        <form class="flex flex-col p-5" id="profile-form">
+                            {% csrf_token %}
                             <div class="mb-4">
                                 <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
                                 <input type="text" id="username" name="username" value="{{ user.username }}"
@@ -36,13 +38,13 @@
                             <div class="mb-4">
                                 <label for="date_joined" class="block text-gray-700 text-sm font-bold mb-2">Date Joined</label>
                                 <input type="text" id="date_joined" name="date_joined" value="{{ user.date_joined }}"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
                             </div>
                             <div class="mb-4">
                                 <label for="last
                                     -login" class="block text-gray-700 text-sm font-bold mb-2">Last Login</label>
                                 <input type="text" id="last-login" name="last-login" value="{{ user.last_login }}"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
                             </div>
                             <div class="mb-4">
                                 <button id="save-changes-btn"
@@ -61,4 +63,8 @@
         </div>
     </main>
 </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'users/js/account.js' %}"></script>
 {% endblock %}

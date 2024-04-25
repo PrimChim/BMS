@@ -118,5 +118,6 @@ function createBill() {
         'quantity': [],
         'price': [],
         'total': 0
-    };    
+    };
 }
+
