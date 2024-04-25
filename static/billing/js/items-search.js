@@ -29,7 +29,7 @@ itemsSearch.addEventListener('input', function () {
     itemsSearchResults.innerHTML = '';
     filteredItems.forEach(item => {
         itemsSearchResults.innerHTML += `
-        <li class="h-8 hover:bg-slate-600" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
+        <li class="h-8 hover:bg-slate-600 hover:cursor-pointer" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
     });
 })
 
@@ -44,7 +44,7 @@ itemsSearch.addEventListener('focus', function () {
     itemsSearchResults.innerHTML = '';
     filteredItems.forEach(item => {
         itemsSearchResults.innerHTML += `
-        <li class="h-8 hover:bg-slate-600" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
+        <li class="h-8 hover:bg-slate-600 hover:cursor-pointer" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
     });
 })
 
@@ -57,32 +57,42 @@ itemsSearch.addEventListener('focusout', function () {
 
 // add items on click
 function setItem(name, price) {
-    let sn = billTable.rows.length;
-
     if (name == "Digital 16' External Monitor") {
         name = "Digital 16\' External Monitor";
     }
 
-    billTable.innerHTML += `<tr>
-        <td class="w-1/2 text-left py-3 px-4 bg-slate-600">${name}</td>
-        <td class="w-1/4 text-left py-3 px-4 bg-slate-500">1</td>
-        <td class="w-1/4 text-left py-3 px-4 bg-slate-600">${price}</td>
-        <td class="w-1/4 text-left py-3 px-4 bg-slate-500">${price}</td>
-        <td class="w-1/4 text-left py-3 px-4 bg-slate-600"><button onClick='removeItem(this)'>Remove</button></td>
-    </tr>`;
+    if (items.items.includes(name)) {
+        items.quantity[items.items.indexOf(name)] += 1;
+    } else {
+        items.items.push(name);
+        items.quantity.push(1);
+        items.price.push(price);
+    }
+    let tableData = '';
+    for (let i = 0; i < items.items.length; i++) {
+        tableData += `<tr>
+        <td class="w-1/2 text-left py-3 px-4 bg-slate-300">${items.items[i]}</td>
+        <td class="w-28 text-left bg-slate-200"><input type="number" name="" value=${items.quantity[i]} class="w-full px-4 bg-transparent" readonly></td>
+        <td class="w-28 text-left py-3 px-4 bg-slate-300">${items.price[i]}</td>
+        <td class="w-28 text-left py-3 px-4 bg-slate-200">${items.price[i]*items.quantity[i]}</td>
+        <td class="w-28 text-left py-3 px-4 bg-slate-300"><button onClick='removeItem(this)'>Remove</button></td>
+        </tr>`;
+    }
+    billTable.innerHTML = tableData;
+    tableData = '';
     itemsSearch.value = '';
     itemsSearchResults.innerHTML = '';
     calculateTotalOnChange();
 }
 
 // calculate total on quantity change
-let quantity = document.getElementsByName('item-quantity');
-let price = document.getElementsByName('item-price');
-let total = document.getElementsByName('item-total');
+let total = document.getElementById('total');
 function calculateTotalOnChange() {
-    for (let i = 0; i < quantity.length; i++) {
-        quantity[i].addEventListener('input', function () {
-            total[i].value = quantity[i].value * price[i].value;
-        })
+    let totalAmount = 0;
+    // multiply each item price with its quantity
+    for (let i = 0; i < items.quantity.length; i++) {
+        totalAmount += items.price[i] * items.quantity[i];
     }
+    total.value = totalAmount;
+    items.total = totalAmount;
 }

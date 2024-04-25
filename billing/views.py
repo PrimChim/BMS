@@ -14,16 +14,16 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def create_bill_api(request):
     if request.method == 'POST':
+        data = request.data
+        print(data)
         customer_email = request.data.get('customer-email')
         customer_id = Customer.objects.get(email=customer_email).id
 
-        items = request.data.get('item-name')
-        quantities = request.data.get('item-quantity')
-        prices = request.data.get('item-total')
-        total = 0
-        
-        for i in range(len(items)):
-            total += int(prices[i])
+        items = request.data.get('items')
+        quantities = request.data.get('quantity')
+        total = request.data.get('total')
+        total = int(total)
+
         bill = Bills(total_price=total, customer_id=customer_id)
         bill.save()
 
