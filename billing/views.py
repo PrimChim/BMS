@@ -39,7 +39,7 @@ def create_bill_api(request):
 @login_required
 def view_bills(request, id=None):
 
-    # POST request
+    # get bill details
     if id is not None:
         bill_id = id
         try:
@@ -48,9 +48,21 @@ def view_bills(request, id=None):
             serializer = BillItemsSerializer(bill_items, many=True)
             for data in serializer.data:
                 item_id = data['item']
-                item_name = Items.objects.get(id=item_id).name
+                item = Items.objects.get(id=item_id)
+                item_name = item.name
                 data['item'] = item_name
-            return Response(serializer.data)
+                price = item.price
+                data['price'] = price
+            customer = Customer.objects.filter(id=bill.customer_id).first()
+            billing_details = {
+                'total' : bill.total_price,
+                'billed_to' : customer.name,
+                'invoice_date' : bill.invoice_date,
+                'customer_pan' : customer.pan
+            }
+            data = serializer.data
+            data.append(billing_details)
+            return Response(data)
         except Bills.DoesNotExist:
             return Response({'message':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
 
