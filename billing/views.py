@@ -73,6 +73,17 @@ def view_bills(request, id=None):
         data['invoice_date'] = data['invoice_date'].split('T')[0]
     return Response(serializer.data)
 
+# delete bill
+@api_view(['GET'])
+@login_required
+def delete_bill(request, id):
+    try:
+        bill = Bills.objects.get(id=id)
+        bill.delete()
+        return Response({'message':'Bill Deleted Successfully!!!'}, status=status.HTTP_204_NO_CONTENT)
+    except Bills.DoesNotExist:
+        return Response({'message':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
+
 @api_view(['POST'])
 def add_items(request):
     serializer = ItemsSerializer(data=request.data)

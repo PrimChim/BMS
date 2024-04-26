@@ -28,9 +28,6 @@ fetch('/billing/api/view-bills/')
     );
 
 function openBill(id) {
-    data = {
-        "bill-id": id
-    }
     fetch('/billing/api/view-bills/' + id)
         .then(response => response.json())
         .then(data => {
@@ -110,6 +107,26 @@ function openBill(id) {
             let main = document.getElementById('main');
             main.appendChild(div);
 
+            let actions = document.createElement('div');
+            actions.innerHTML = `
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='printBill(${id})'>Print</button>
+            <button class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-5" onClick='window.location.reload()'>Back</button>
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='deleteBill(${id})'>Delete</button>
+            `;
+            main.appendChild(actions);
+
+
         }
         );
+}
+
+function deleteBill(id){
+    fetch('/billing/api/delete-bill/' + id, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        window.location.reload();
+    });
 }
