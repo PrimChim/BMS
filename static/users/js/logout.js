@@ -23,3 +23,22 @@ if (logoutForm) {
         logout();
     });
 }
+
+// for active nav link
+
+function handleNavLinks() {
+    let navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(function (link) {
+        link.classList.remove('active-nav-link');
+    });
+    let path = window.location.pathname;
+    if (path === '/billing/dashboard/') {
+        navLinks[0].classList.add('active-nav-link');
+    } else if (path === '/billing/create-bill/') {
+        navLinks[1].classList.add('active-nav-link');
+    } else if (path === '/billing/bills/') {
+        navLinks[2].classList.add('active-nav-link');
+    }
+}
+
+handleNavLinks();

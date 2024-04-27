@@ -14,16 +14,26 @@ loginForm.addEventListener('submit', function (e) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
             if (response.success) {
-                if (response.superuser) {
-                    window.location.href = '/admin/';
-                } else {
-                    window.location.href = '/billing/dashboard';
-                }
-            } else {
-                alert(response.message);
+                alertify.set('notifier', 'position', 'top-center');
+                alertify.success(response.success);
+                setTimeout(function () {
+                    if (response.superuser) {
+                        window.location.href = '/admin/';
+                    } else {
+                        window.location.href = '/billing/dashboard';
+                    }
+                }, 2000);
+            } else if (response.error) {
+                alertify.set('notifier', 'position', 'top-center');
+                alertify.success(response.error);
             }
         } else if (xhr.readyState === 4 && xhr.status === 403) {
             window.location.href = '/billing/dashboard';
+        } else if (xhr.readyState === 4 && xhr.status === 400) {
+            var response = JSON.parse(xhr.responseText);
+            alertify.set('notifier', 'delay', 2);
+            alertify.set('notifier', 'position', 'top-center');
+            alertify.error(response.error);
         }
     };
     xhr.send(JSON.stringify(data));

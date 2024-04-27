@@ -1,3 +1,4 @@
+{% load compress %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,22 +7,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Khata</title>
-    <link rel="stylesheet" href="{% static 'users/css/login.css' %}">
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    {% endcompress %}
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
 </head>
 
 <body>
-    <form method="post" id="login-form">
-        {% csrf_token %}
-        <h1>Log in to your account</h1>
-        <label for="username" class="user-label">Username</label>
-        <input type="text" name="username" required>
-        <div class="forgot-label">
-            <label for="password">Password</label><a href="{% url 'users:general' slug='forgot-password' %}">Forgot password?</a>
+    <div class="flex h-screen w-full items-center justify-center bg-gradient-to-r from-blue-500 to-blue-800 font-serif">
+        <div class="flex h-fit w-fit bg-gradient-to-tr rounded shadow-md shadow-gray-600 text-white">
+            <div class="box-border hidden h-96 w-96 justify-between p-8 md:flex md:flex-col">
+                <img src="{% static 'users/logo/2.png' %}" alt="" width="90px">
+                <div class="animate-pulse">
+                    <h1 class="text-3xl font-bold">Welcome to Khata.</h1>
+                    <p class="text-2xl">"Digital billing solution for everyone."</p>
+                </div>
+                <p></p>
+            </div>
+            <form id="login-form"
+                class="box-border flex h-96 w-96 flex-col justify-evenly rounded bg-gradient-to-tr p-8">
+                {% csrf_token %}
+                <h1 class="text-center font-semibold text-2xl">Login</h1>
+                <label for="Username" class="text-left">Username</label>
+                <input type="text" name="username" class="w-full text-black rounded border border-gray-900 p-4"
+                    placeholder="username" required>
+                <div class="flex w-full justify-between">
+                    <label for="password">Password</label>
+                    <a href="{% url 'users:general' slug='forgot-password' %}"
+                        class="text-gray-800 underline hover:text-white">Forgot
+                        Password?</a>
+                </div>
+                <input type="password" name="password" id=""
+                    class="w-full text-black rounded border border-gray-900 p-4" placeholder="password" required>
+                <button type="submit" class="w-full self-center rounded bg-orange-400 p-4 hover:bg-orange-500">Log
+                    In</button>
+            </form>
         </div>
-        <input type="password" name="password" required>
-        <input type="submit" value="Login">
-    </form>
+    </div>
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
     <script src="{% static '/users/js/login.js' %}"></script>
+
 </body>
 
 </html>
