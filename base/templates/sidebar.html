@@ -1,10 +1,14 @@
+{% load static %}
 <aside class="sticky bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
-    <div class="p-6">
-        <a href="{% url 'billing:dashboard' %}" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Khata</a>
+    <div class="p-6 flex flex-col">
+        <img src="{% static 'users/logo/2.png' %}" alt="logo" width="50px" class="self-center">
+        <a href="{% url 'billing:dashboard' %}"
+            class="text-white text-center text-3xl font-semibold uppercase hover:text-gray-300">
+            Khata</a>
     </div>
     <nav class="text-white text-base font-semibold pt-3">
         <a href="{% url 'billing:dashboard' %}"
-            class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item active-nav-link">
+            class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
             <i class="fas fa-tachometer-alt mr-3"></i>
             Dashboard
         </a>
@@ -18,6 +22,23 @@
             <i class="fas fa-sticky-note mr-3"></i>
             Bills
         </a>
+        <a href="{% url 'billing:items' %}"
+            class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <i class="fas fa-box mr-3"></i>
+            Items
+        </a>
+        {% if user.is_superuser %}
+        <a href="{% url 'billing:items' %}"
+            class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <i class="fas fa-users mr-3"></i>
+            Customers
+        </a>
+        <a href="{% url 'billing:items' %}"
+            class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <i class="fas fa-cog mr-3"></i>
+            Business Settings
+        </a>
+        {% endif %}
     </nav>
     <button
         class="absolute w-full upgrade-btn bottom-0 active-nav-link text-white flex items-center justify-center py-4"

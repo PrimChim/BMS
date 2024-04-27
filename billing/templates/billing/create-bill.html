@@ -19,16 +19,12 @@
 
                 <div class="flex items-center justify-between">
                     <input type="text" id="items-search" placeholder="Search item"
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none" />
-                    <button id="search-item-btn"
-                        class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none">Search</button>
+                        class="focus:shadow-outline w-96 appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none" />
                 </div>
-                <div
-                    class="flex items-center justify-between rounded bg-slate-500 absolute w-1/2 max-h-32 overflow-y-auto">
-                    <div class="w-full">
-                        <ul class="w-full" id="items-search-result">
-                        </ul>
-                    </div>
+                <!-- search items dropdown -->
+                <div class="absolute w-80 max-h-80 overflow-y-auto">
+                    <ul class="w-full bg-gray-300" id="items-search-result">
+                    </ul>
                 </div>
                 <div class="mb-4 flex flex-col justify-space md:flex-row">
                     <div class="mb-4 w-full md:w-1/2">
@@ -48,6 +44,11 @@
                             Name</label>
                         <input type="text" id="customer-name" name="customer_name"
                             class="focus:shadow-outline w-full md:w-4/5 appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none" />
+                        <!-- customers dropdown -->
+                        <div class="absolute w-80 max-h-80 overflow-y-auto">
+                            <ul class="w-full bg-gray-300" id="customers-list">
+                            </ul>
+                        </div>
                     </div>
                     <div class="mb-4 w-full md:w-1/2">
                         <label for="customer_pan" class="text -gray-700 mb-2 block text-sm font-bold">Customer
@@ -55,11 +56,6 @@
                         <input type="text" id="customer-pan" name="customer_pan"
                             class="focus:shadow-outline w-full md:w-4/5 appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none" />
                     </div>
-                </div>
-                <div
-                    class="flex items-center justify-between rounded bg-slate-500 absolute w-1/2 max-h-32 overflow-y-auto -mt-8">
-                    <ul class="w-full" id="customers-list">
-                    </ul>
                 </div>
                 <!-- items in table -->
                 <div class="mb-4">
@@ -70,7 +66,7 @@
                                 <th class="w-28 text-left py-3 px-4 uppercase font-semibold text-sm">Quantity</th>
                                 <th class="w-28 text-left py-3 px-4 uppercase font-semibold text-sm">Price</th>
                                 <th class="w-28 text-left py-3 px-4 uppercase font-semibold text-sm">Total</th>
-                                <th class="w-28 text-left py-3 px-4 uppercase font-semibold text-sm">Action</th>
+                                <th class="w-28 text-center py-3 px-4 uppercase font-semibold text-sm">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-700" id="bill-table">

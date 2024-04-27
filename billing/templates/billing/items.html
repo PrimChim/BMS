@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+    <main class="w-full flex-grow p-6">
+        <h1 class="text-3xl text-black pb-6">Create Bill</h1>
+        <!-- items table to display all items -->
+        <div class="w-4/5 mt-6">
+            <div class="bg-white overflow-auto p-6">
+                <div class="flex items-center justify-between">
+                    <input type="text" id="items-search" placeholder="Search item"
+                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none" />
+                    <button id="search-item-btn"
+                        class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none">Search</button>
+                </div>
+                <div
+                    class="flex items-center justify-between rounded bg-slate-500 absolute w-1/2 max-h-32 overflow-y-auto">
+                    <div class="w-full">
+                        <ul class="w-full" id="items-search-result">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+{% endblock %}

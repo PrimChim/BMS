@@ -29,7 +29,7 @@ itemsSearch.addEventListener('input', function () {
     itemsSearchResults.innerHTML = '';
     filteredItems.forEach(item => {
         itemsSearchResults.innerHTML += `
-        <li class="h-8 hover:bg-slate-600 hover:cursor-pointer" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
+        <li class="hover:bg-slate-500 p-3 text-xl hover:cursor-pointer" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
     });
 })
 
@@ -44,7 +44,7 @@ itemsSearch.addEventListener('focus', function () {
     itemsSearchResults.innerHTML = '';
     filteredItems.forEach(item => {
         itemsSearchResults.innerHTML += `
-        <li class="h-8 hover:bg-slate-600 hover:cursor-pointer" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
+        <li class="hover:bg-slate-500 p-3 text-xl hover:cursor-pointer" onclick="setItem('${item.name}', ${item.price})">${item.name}</li>`;
     });
 })
 
@@ -74,8 +74,8 @@ function setItem(name, price) {
         <td class="w-1/2 text-left py-3 px-4 bg-slate-300">${items.items[i]}</td>
         <td class="w-28 text-left bg-slate-200"><input type="number" name="" value=${items.quantity[i]} class="w-full px-4 bg-transparent" readonly></td>
         <td class="w-28 text-left py-3 px-4 bg-slate-300">${items.price[i]}</td>
-        <td class="w-28 text-left py-3 px-4 bg-slate-200">${items.price[i]*items.quantity[i]}</td>
-        <td class="w-28 text-left py-3 px-4 bg-slate-300"><button onClick='removeItem(this)'>Remove</button></td>
+        <td class="w-28 text-left py-3 px-4 bg-slate-200">${items.price[i] * items.quantity[i]}</td>
+        <td class="w-28 text-center py-3 px-4 bg-slate-300"><button onClick='removeItem("${items.items[i]}")'><i class="fas fa-trash mr-3"></i></button></td>
         </tr>`;
     }
     billTable.innerHTML = tableData;
@@ -87,6 +87,7 @@ function setItem(name, price) {
 
 // calculate total on quantity change
 let total = document.getElementById('total');
+total.value = 0;
 function calculateTotalOnChange() {
     let totalAmount = 0;
     // multiply each item price with its quantity
@@ -95,4 +96,23 @@ function calculateTotalOnChange() {
     }
     total.value = totalAmount;
     items.total = totalAmount;
+}
+
+function removeItem(item) {
+    let index = items.items.indexOf(item);
+    items.items.splice(index, 1);
+    items.quantity.splice(index, 1);
+    items.price.splice(index, 1);
+    let tableData = '';
+    for (let i = 0; i < items.items.length; i++) {
+        tableData += `<tr>
+        <td class="w-1/2 text-left py-3 px-4 bg-slate-300">${items.items[i]}</td>
+        <td class="w-28 text-left bg-slate-200"><input type="number" name="" value=${items.quantity[i]} class="w-full px-4 bg-transparent" readonly></td>
+        <td class="w-28 text-left py-3 px-4 bg-slate-300">${items.price[i]}</td>
+        <td class="w-28 text-left py-3 px-4 bg-slate-200">${items.price[i] * items.quantity[i]}</td>
+        <td class="w-28 text-center py-3 px-4 bg-slate-300"><button onClick='removeItem("${items.items[i]}")'><i class="fas fa-trash mr-3"></i></button></td>
+        </tr>`;
+    }
+    billTable.innerHTML = tableData;
+    calculateTotalOnChange();
 }

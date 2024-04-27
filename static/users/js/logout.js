@@ -38,6 +38,10 @@ function handleNavLinks() {
         navLinks[1].classList.add('active-nav-link');
     } else if (path === '/billing/bills/') {
         navLinks[2].classList.add('active-nav-link');
+    } else if (path === '/billing/items/') {
+        navLinks[3].classList.add('active-nav-link');
+    } else if (path === '/billing/customers/') {
+        navLinks[4].classList.add('active-nav-link');
     }
 }
 

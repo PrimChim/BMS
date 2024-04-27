@@ -5,7 +5,6 @@ let customer = document.getElementById('customer-name');
 // creating a list of all items and customer name and email in a object
 let items = {
     'customer-email': '',
-    'bill-total': 0,
     'items': [],
     'quantity': [],
     'price': [],
@@ -50,7 +49,7 @@ customer.addEventListener('focus', function () {
 
     customersList.innerHTML = '';
     filteredCustomers.forEach(customer => {
-        customersList.innerHTML += `<li class="hover:cursor-pointer hover:bg-slate-600" onClick="setCustomer('${customer.name}', ${customer.pan}, '${customer.email}')">${customer.name}</li>`;
+        customersList.innerHTML += `<li class="hover:cursor-pointer hover:bg-slate-500 p-3 text-xl" onClick="setCustomer('${customer.name}', ${customer.pan}, '${customer.email}')">${customer.name}</li>`;
     });
     customersList.style.display = 'block';
 
@@ -74,7 +73,7 @@ customer.addEventListener('input', function () {
 
     customersList.innerHTML = '';
     filteredCustomers.forEach(customer => {
-        customersList.innerHTML += `<li class="hover:cursor-pointer hover:bg-slate-600" onClick="setCustomer('${customer.name}', ${customer.pan}, '${customer.email}')">${customer.name}</li>`;
+        customersList.innerHTML += `<li class="hover:cursor-pointer hover:bg-slate-500 p-3 text-xl" onClick="setCustomer('${customer.name}', ${customer.pan}, '${customer.email}')">${customer.name}</li>`;
     });
 });
 
@@ -113,7 +112,6 @@ function createBill() {
         });
     items = {
         'customer-email': '',
-        'bill-total': 0,
         'items': [],
         'quantity': [],
         'price': [],

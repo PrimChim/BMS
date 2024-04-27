@@ -128,5 +128,10 @@ def create_bill(request):
 def dashboard(request):
     return render(request, 'billing/dashboard.html')
 
+@login_required
 def view_bills_frontend(request):
     return render(request, 'billing/view-bills.html')
+
+@login_required
+def items_frontend(request):
+    return render(request, 'billing/items.html')
