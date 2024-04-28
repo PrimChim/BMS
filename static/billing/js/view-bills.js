@@ -9,7 +9,9 @@ fetch('/billing/api/view-bills/')
                 <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
                 <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
                 <td class="text-left py-3 px-4">${bill.invoice_date}</td>
-                <td class="text-left py-3 px-4"><button onClick='openBill(${bill.id})'>Open</button></td>
+                <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
+                <i class="fas fa-eye mt-3"></i>
+                </button></td>
             </tr>`;
                 table.innerHTML += row;
                 condition = false;
@@ -18,7 +20,9 @@ fetch('/billing/api/view-bills/')
                 <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
                 <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
                 <td class="text-left py-3 px-4">${bill.invoice_date}</td>
-                <td class="text-left py-3 px-4"><button onClick='openBill(${bill.id})'>Open</button></td>
+                <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
+                <i class="fas fa-eye mt-3"></i>
+                </button></td>
             </tr>`;
                 table.innerHTML += row;
                 condition = true;
