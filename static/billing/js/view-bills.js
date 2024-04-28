@@ -1,7 +1,7 @@
 fetch('/billing/api/view-bills/')
     .then(response => response.json())
     .then(data => {
-        let table = document.querySelector('table');
+        let table = document.getElementById('bill-table');
         let condition = true;
         for (let bill of data) {
             if (condition) {
@@ -30,6 +30,49 @@ fetch('/billing/api/view-bills/')
         }
     }
     );
+
+function cancelledBills() {
+    let csrf = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+    fetch('/billing/api/view-bills/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrf
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            let table = document.getElementById('bill-table');
+            let condition = true;
+            table.innerHTML = ``;
+            for (let bill of data) {
+                if (condition) {
+                    let row = `<tr>
+                <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
+                <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
+                <td class="text-left py-3 px-4">${bill.invoice_date}</td>
+                <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
+                <i class="fas fa-eye mt-3"></i>
+                </button></td>
+            </tr>`;
+                    table.innerHTML += row;
+                    condition = false;
+                } else {
+                    let row = `<tr class="bg-gray-200">
+                <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
+                <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
+                <td class="text-left py-3 px-4">${bill.invoice_date}</td>
+                <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
+                <i class="fas fa-eye mt-3"></i>
+                </button></td>
+            </tr>`;
+                    table.innerHTML += row;
+                    condition = true;
+                }
+            }
+        }
+        );
+}
 
 function openBill(id) {
     fetch('/billing/api/view-bills/' + id)
@@ -115,7 +158,7 @@ function openBill(id) {
             actions.innerHTML = `
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='printBill(${id})'>Print</button>
             <button class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-5" onClick='window.location.reload()'>Back</button>
-            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='deleteBill(${id})'>Delete</button>
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='cancelBill(${id})'>Cancel</button>
             `;
             main.appendChild(actions);
 
@@ -124,13 +167,13 @@ function openBill(id) {
         );
 }
 
-function deleteBill(id){
-    fetch('/billing/api/delete-bill/' + id, {
+function cancelBill(id) {
+    fetch('/billing/api/cancel-bill/' + id, {
         method: 'GET'
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        window.location.reload();
-    });
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            window.location.reload();
+        });
 }

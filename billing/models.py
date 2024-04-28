@@ -14,6 +14,7 @@ class Bills(models.Model):
     customer_id = models.IntegerField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     invoice_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, default='regular', choices=[('regular', 'regular'), ('cancelled', 'cancelled')])
 
     def __str__(self):
         return str(self.id)

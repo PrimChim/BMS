@@ -35,9 +35,16 @@ def create_bill_api(request):
     return Response({'message' : 'Unsupported method used!!!'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 @login_required
 def view_bills(request, id=None):
+
+    if request.method == 'POST':
+        bills = Bills.objects.filter(status='cancelled')
+        serializer = BillsSerializer(bills, many=True)
+        for data in serializer.data:
+            data['invoice_date'] = data['invoice_date'].split('T')[0]
+        return Response(serializer.data)
 
     # get bill details
     if id is not None:
@@ -67,7 +74,7 @@ def view_bills(request, id=None):
             return Response({'message':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
 
     # GET request
-    bills = Bills.objects.all()
+    bills = Bills.objects.filter(status='regular')
     serializer = BillsSerializer(bills, many=True)
     for data in serializer.data:
         data['invoice_date'] = data['invoice_date'].split('T')[0]
@@ -76,11 +83,12 @@ def view_bills(request, id=None):
 # delete bill
 @api_view(['GET'])
 @login_required
-def delete_bill(request, id):
+def cancel_bill(request, id):
     try:
         bill = Bills.objects.get(id=id)
-        bill.delete()
-        return Response({'message':'Bill Deleted Successfully!!!'}, status=status.HTTP_204_NO_CONTENT)
+        bill.status = 'cancelled'
+        bill.save()
+        return Response({'message':'Bill Cancelled Successfully!!!'}, status=status.HTTP_204_NO_CONTENT)
     except Bills.DoesNotExist:
         return Response({'message':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
 

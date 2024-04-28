@@ -22,9 +22,10 @@
                     <option value="">Amit</option>
                     <option value="">Sushma</option>
                 </select>
-                <a href="" class="p-2  underline text-red-400 hover:text-red-500">Canelled Bills</a>
+                <a onclick="cancelledBills()" class="p-2  underline text-red-400 hover:text-red-500">Canelled Bills</a>
             </div>
             <div>
+                {% csrf_token %}
                 <input type="text" class="p-2 border border-gray-200" placeholder="search">
                 <button class="border bg-blue-500 p-2 hover:bg-blue-600 text-white">Search</button>
             </div>
@@ -40,7 +41,7 @@
                             <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Actions</td>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-700">
+                    <tbody class="text-gray-700" id="bill-table">
 
                     </tbody>
                 </table>

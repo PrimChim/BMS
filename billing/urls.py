@@ -15,5 +15,5 @@ urlpatterns = [
     path('api/view-bills/', view_bills, name='view-bills'),
     path('api/view-bills/<int:id>', view_bills, name='view-bills'),
     path('api/create-bill-api/',create_bill_api,name='create-bill-api'),
-    path('api/delete-bill/<int:id>', delete_bill, name='delete-bill'),
+    path('api/cancel-bill/<int:id>', cancel_bill, name='cancel-bill'),
 ]
