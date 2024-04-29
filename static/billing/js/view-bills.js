@@ -81,11 +81,7 @@ function openBill(id) {
 
             let customerDetails = data[data.length - 1];
 
-            console.log(customerDetails);
-
             data.pop()
-
-
 
             let table = document.querySelector('table');
             table.innerHTML = `
@@ -155,14 +151,21 @@ function openBill(id) {
             main.appendChild(div);
 
             let actions = document.createElement('div');
-            actions.innerHTML = `
+
+            if (customerDetails.bill_status === 'cancelled') {
+                actions.innerHTML = `
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='printBill(${id})'>Print</button>
+                <button class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-5" onClick='window.location.reload()'>Back</button>
+                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='regularBill(${id})'>Restore</button>
+                `;
+            } else if (customerDetails.bill_status === 'regular') {
+                actions.innerHTML = `
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='printBill(${id})'>Print</button>
             <button class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-5" onClick='window.location.reload()'>Back</button>
             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-5" onClick='cancelBill(${id})'>Cancel</button>
             `;
+            }
             main.appendChild(actions);
-
-
         }
         );
 }
@@ -173,7 +176,42 @@ function cancelBill(id) {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            window.location.reload();
+            if (data.message) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.set('notifier', 'delay', 3);
+                alertify.success(data.message);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else if (data.error) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.set('notifier', 'delay', 3);
+                alertify.error(data.error);
+            }
+        });
+}
+
+function regularBill(id) {
+    fetch('/billing/api/cancel-bill/' + id, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('input[name=csrfmiddlewaretoken]').value
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.set('notifier', 'delay', 3);
+                alertify.success(data.message);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else if (data.error) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.set('notifier', 'delay', 3);
+                alertify.error(data.error);
+            }
         });
 }

@@ -65,9 +65,11 @@ def view_bills(request, id=None):
                 'total' : bill.total_price,
                 'billed_to' : customer.name,
                 'invoice_date' : bill.invoice_date,
-                'customer_pan' : customer.pan
+                'customer_pan' : customer.pan,
+                'bill_status' : 'cancelled' if bill.status == 'cancelled' else 'regular'
             }
             data = serializer.data
+
             data.append(billing_details)
             return Response(data)
         except Bills.DoesNotExist:
@@ -81,16 +83,26 @@ def view_bills(request, id=None):
     return Response(serializer.data)
 
 # delete bill
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 @login_required
 def cancel_bill(request, id):
-    try:
-        bill = Bills.objects.get(id=id)
-        bill.status = 'cancelled'
-        bill.save()
-        return Response({'message':'Bill Cancelled Successfully!!!'}, status=status.HTTP_204_NO_CONTENT)
-    except Bills.DoesNotExist:
-        return Response({'message':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        try:
+            bill = Bills.objects.get(id=id)
+            bill.status = 'cancelled'
+            bill.save()
+            return Response({'message':'Bill Cancelled Successfully!!!'}, status=status.HTTP_200_OK)
+        except Bills.DoesNotExist:
+            return Response({'error':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'POST':
+        try:
+            bill = Bills.objects.get(id=id)
+            bill.status = 'regular'
+            bill.save()
+            return Response({'message':'Bill Restored Successfully!!!'}, status=status.HTTP_200_OK)
+        except Bills.DoesNotExist:
+            return Response({'error':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
+    return Response({'error':'Unsupported method used!!!'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def add_items(request):
@@ -103,9 +115,14 @@ def add_items(request):
 @api_view(['GET'])
 @login_required
 def get_items(request):
+    search = request.GET.get('search')
+    if search is not None:
+        items = Items.objects.filter(name__contains=search)
+        serializer = ItemsSerializer(items, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     items = Items.objects.all()
     serializer = ItemsSerializer(items, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 # billing frontend views
 

@@ -5,25 +5,42 @@
 <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
     <main class="w-full flex-grow p-6">
         <h1 class="text-3xl text-black pb-6">Create Bill</h1>
-        <!-- items table to display all items -->
-        <div class="w-4/5 mt-6">
-            <div class="bg-white overflow-auto p-6">
-                <div class="flex items-center justify-between">
-                    <input type="text" id="items-search" placeholder="Search item"
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none" />
-                    <button id="search-item-btn"
-                        class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none">Search</button>
-                </div>
-                <div
-                    class="flex items-center justify-between rounded bg-slate-500 absolute w-1/2 max-h-32 overflow-y-auto">
-                    <div class="w-full">
-                        <ul class="w-full" id="items-search-result">
-                        </ul>
-                    </div>
-                </div>
+        <div class="flex justify-between">
+            <div>
+                <select name="" class="p-2 border bg-white border-gray-200" id="">
+                    <option value="">Pritam</option>
+                    <option value="">Anil</option>
+                    <option value="">Amit</option>
+                    <option value="">Sushma</option>
+                </select>
+                <button class="border bg-blue-500 p-2 hover:bg-blue-600 text-white">Add Item</button>
+            </div>
+            {% csrf_token %}
+            <form id="search-form">
+                <input type="text" class="p-2 border border-gray-200" placeholder="search" id="search">
+                <button class="border bg-blue-500 p-2 hover:bg-blue-600 text-white" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="w-full mt-6">
+            <div class="bg-white overflow-auto">
+                <table class="w-full text-left whitespace-no-wrap">
+                    <thead>
+                        <tr class="min-w-full bg-gray-800 text-white">
+                            <th class="font-semibold w-3/5 uppercase px-4 py-3">Item Name</th>
+                            <th class="font-semibold w-1/5 uppercase px-4 py-3">Price</th>
+                            <th class="font-semibold w-1/5 uppercase px-4 py-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-table">
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
 </div>
 
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'billing/js/items.js' %}"></script>
 {% endblock %}
