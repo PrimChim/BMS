@@ -46,6 +46,13 @@
                     </tbody>
                 </table>
             </div>
+            <div class="flex w-full justify-end bg-blue-50 p-2">
+                <div class="flex">
+                    <button class="bg-blue-100 p-2 hover:bg-blue-300" onclick="previousPage()">Previous</button>
+                    <select name="" id="page-number-selector" class="p-2"></select>
+                    <button class="bg-blue-100 p-2 hover:bg-blue-300" onclick="nextPage()">Next</button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -57,5 +64,6 @@
 </div>
 
 <script src="{% static 'billing/js/view-bills.js' %}"></script>
+<script src="{% static 'billing/js/paginator.js' %}"></script>
 
 {% endblock %}

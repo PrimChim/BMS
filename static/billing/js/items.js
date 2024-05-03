@@ -1,10 +1,11 @@
 let itemsTable = document.getElementById('items-table');
 
-function items() {
+function items(page = 1) {
     itemsTable.innerHTML = '';
-    fetch('/billing/api/get-items')
+    fetch('/billing/api/get-items?page=' + page)
         .then(response => response.json())
         .then(data => {
+            data.pop();
             data.forEach(item => {
                 let row = itemsTable.insertRow(-1);
                 let cell1 = row.insertCell(0);

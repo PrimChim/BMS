@@ -40,6 +40,8 @@ def create_bill_api(request):
 @login_required
 def view_bills(request, id=None):
 
+    page = request.GET.get('page')
+
     if request.method == 'POST':
         bills = Bills.objects.filter(status='cancelled')
         serializer = BillsSerializer(bills, many=True)
@@ -83,8 +85,12 @@ def view_bills(request, id=None):
         data['invoice_date'] = data['invoice_date'].split('T')[0]
 
     paginator = Paginator(serializer.data, 5)
-
-    page_obj = paginator.page(2).object_list
+    page_obj = []
+    if page is not None:
+        page_obj = paginator.page(page).object_list
+    else:
+        page_obj = paginator.page(1).object_list
+    page_obj.append(paginator.num_pages)
     return Response(page_obj, status=status.HTTP_200_OK)
 
 # delete bill
@@ -127,10 +133,14 @@ def get_items(request):
         serializer = ItemsSerializer(items, many=True)
 
         paginator = Paginator(serializer.data, 5)
+
         if page is not None:
             page_obj = paginator.page(page).object_list
+            page_obj.append(paginator.num_pages)
             return Response(page_obj, status=status.HTTP_200_OK)
+        
         page_obj = paginator.page(1).object_list
+        page_obj.append(paginator.num_pages)
         return Response(page_obj, status=status.HTTP_200_OK)
 
     items = Items.objects.all()
@@ -139,9 +149,11 @@ def get_items(request):
     paginator = Paginator(serializer.data, 5)
     if page is not None:
         page_obj = paginator.page(page).object_list
+        page_obj.append(paginator.num_pages)
         return Response(page_obj, status=status.HTTP_200_OK)
 
     page_obj = paginator.page(1).object_list
+    page_obj.append(paginator.num_pages)
     return Response(page_obj, status=status.HTTP_200_OK)
 
 # billing frontend views

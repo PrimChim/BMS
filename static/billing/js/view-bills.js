@@ -1,11 +1,14 @@
-fetch('/billing/api/view-bills/')
-    .then(response => response.json())
-    .then(data => {
-        let table = document.getElementById('bill-table');
-        let condition = true;
-        for (let bill of data) {
-            if (condition) {
-                let row = `<tr>
+let table = document.getElementById('bill-table');
+function bills(page = 1) {
+    table.innerHTML = '';
+    fetch('/billing/api/view-bills?page=' + page)
+        .then(response => response.json())
+        .then(data => {
+            data.pop();
+            let condition = true;
+            for (let bill of data) {
+                if (condition) {
+                    let row = `<tr>
                 <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
                 <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
                 <td class="text-left py-3 px-4">${bill.invoice_date}</td>
@@ -13,10 +16,10 @@ fetch('/billing/api/view-bills/')
                 <i class="fas fa-eye mt-3"></i>
                 </button></td>
             </tr>`;
-                table.innerHTML += row;
-                condition = false;
-            } else {
-                let row = `<tr class="bg-gray-200">
+                    table.innerHTML += row;
+                    condition = false;
+                } else {
+                    let row = `<tr class="bg-gray-200">
                 <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
                 <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
                 <td class="text-left py-3 px-4">${bill.invoice_date}</td>
@@ -24,12 +27,15 @@ fetch('/billing/api/view-bills/')
                 <i class="fas fa-eye mt-3"></i>
                 </button></td>
             </tr>`;
-                table.innerHTML += row;
-                condition = true;
+                    table.innerHTML += row;
+                    condition = true;
+                }
             }
         }
-    }
-    );
+        );
+}
+
+bills();
 
 function cancelledBills() {
     let csrf = document.querySelector('input[name=csrfmiddlewaretoken]').value;
