@@ -1,6 +1,7 @@
 let itemsTable = document.getElementById('items-table');
 
 function items() {
+    itemsTable.innerHTML = '';
     fetch('/billing/api/get-items')
         .then(response => response.json())
         .then(data => {
@@ -27,6 +28,7 @@ function items() {
 
 items();
 
+// search items 
 let searchForm = document.getElementById('search-form');
 
 searchForm.addEventListener('submit', function (e) {
@@ -57,3 +59,30 @@ searchForm.addEventListener('submit', function (e) {
         });
 }
 );
+
+// add items form submit handler
+let addItemForm = document.getElementById('add-item-form');
+
+addItemForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    let formData = new FormData(addItemForm);
+    fetch('/billing/api/add-items/', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.set('notifier', 'delay', 3);
+                alertify.success(data.success);
+                addItemForm.reset();
+                dialog.close();
+                items();
+            } else{
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.set('notifier', 'delay', 3);
+                alertify.error(data.error);
+            }
+        });
+})

@@ -7,6 +7,7 @@ from .models import Items, Bills, BillItems
 from users.models import Customer
 from .serializers import ItemsSerializer, BillsSerializer, BillItemsSerializer
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 # billing API views
 
@@ -80,7 +81,11 @@ def view_bills(request, id=None):
     serializer = BillsSerializer(bills, many=True)
     for data in serializer.data:
         data['invoice_date'] = data['invoice_date'].split('T')[0]
-    return Response(serializer.data)
+
+    paginator = Paginator(serializer.data, 5)
+
+    page_obj = paginator.page(2).object_list
+    return Response(page_obj, status=status.HTTP_200_OK)
 
 # delete bill
 @api_view(['GET', 'POST'])
@@ -109,20 +114,35 @@ def add_items(request):
     serializer = ItemsSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({'success': 'Item successfully added!!!'}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @login_required
 def get_items(request):
     search = request.GET.get('search')
+    page = request.GET.get('page')
     if search is not None:
         items = Items.objects.filter(name__contains=search)
         serializer = ItemsSerializer(items, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        paginator = Paginator(serializer.data, 5)
+        if page is not None:
+            page_obj = paginator.page(page).object_list
+            return Response(page_obj, status=status.HTTP_200_OK)
+        page_obj = paginator.page(1).object_list
+        return Response(page_obj, status=status.HTTP_200_OK)
+
     items = Items.objects.all()
     serializer = ItemsSerializer(items, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+
+    paginator = Paginator(serializer.data, 5)
+    if page is not None:
+        page_obj = paginator.page(page).object_list
+        return Response(page_obj, status=status.HTTP_200_OK)
+
+    page_obj = paginator.page(1).object_list
+    return Response(page_obj, status=status.HTTP_200_OK)
 
 # billing frontend views
 
