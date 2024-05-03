@@ -41,6 +41,7 @@ def create_bill_api(request):
 def view_bills(request, id=None):
 
     page = request.GET.get('page')
+    all_bills = request.GET.get('all')
 
     if request.method == 'POST':
         bills = Bills.objects.filter(status='cancelled')
@@ -83,6 +84,9 @@ def view_bills(request, id=None):
     serializer = BillsSerializer(bills, many=True)
     for data in serializer.data:
         data['invoice_date'] = data['invoice_date'].split('T')[0]
+
+    if all_bills:
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     paginator = Paginator(serializer.data, 5)
     page_obj = []

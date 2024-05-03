@@ -10,7 +10,7 @@ function bills(page = 1) {
                 if (condition) {
                     let row = `<tr>
                 <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
-                <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
+                <td class="w-1/3 text-left py-3 px-4">Rs. ${bill.total_price}</td>
                 <td class="text-left py-3 px-4">${bill.invoice_date}</td>
                 <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
                 <i class="fas fa-eye mt-3"></i>
@@ -21,7 +21,7 @@ function bills(page = 1) {
                 } else {
                     let row = `<tr class="bg-gray-200">
                 <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
-                <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
+                <td class="w-1/3 text-left py-3 px-4">Rs. ${bill.total_price}</td>
                 <td class="text-left py-3 px-4">${bill.invoice_date}</td>
                 <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
                 <i class="fas fa-eye mt-3"></i>
@@ -55,7 +55,7 @@ function cancelledBills() {
                 if (condition) {
                     let row = `<tr>
                 <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
-                <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
+                <td class="w-1/3 text-left py-3 px-4">Rs. ${bill.total_price}</td>
                 <td class="text-left py-3 px-4">${bill.invoice_date}</td>
                 <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
                 <i class="fas fa-eye mt-3"></i>
@@ -66,7 +66,7 @@ function cancelledBills() {
                 } else {
                     let row = `<tr class="bg-gray-200">
                 <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
-                <td class="w-1/3 text-left py-3 px-4">${bill.total_price}</td>
+                <td class="w-1/3 text-left py-3 px-4">Rs. ${bill.total_price}</td>
                 <td class="text-left py-3 px-4">${bill.invoice_date}</td>
                 <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
                 <i class="fas fa-eye mt-3"></i>
@@ -107,16 +107,16 @@ function openBill(id) {
                     row = `<tr>
                     <td class="w-1/3 text-left py-3 px-4">${product.item}</td>
                     <td class="w-1/3 text-left py-3 px-4">${product.quantity}</td>
-                    <td class="text-left py-3 px-4">${product.price}</td>
-                    <td class="text-left py-3 px-4">${product.price * product.quantity}</td>
+                    <td class="text-left py-3 px-4">Rs. ${product.price}</td>
+                    <td class="text-left py-3 px-4">Rs. ${product.price * product.quantity}</td>
                     </tr>`;
                     condition = false;
                 } else {
                     row = `<tr class="bg-gray-200">
                     <td class="w-1/3 text-left py-3 px-4">${product.item}</td>
                     <td class="w-1/3 text-left py-3 px-4">${product.quantity}</td>
-                    <td class="text-left py-3 px-4">${product.price}</td>
-                    <td class="text-left py-3 px-4">${product.price * product.quantity}</td>
+                    <td class="text-left py-3 px-4">Rs. ${product.price}</td>
+                    <td class="text-left py-3 px-4">Rs. ${product.price * product.quantity}</td>
                     </tr>`;
                     condition = true;
                 }
@@ -142,7 +142,7 @@ function openBill(id) {
                     <h3 class="text-lg font-semibold">Bill Details</h3>
                     <p class="mt-2">Total Price
 
-                    <span class="font-semibold">${customerDetails.total}</span>
+                    <span class="font-semibold">Rs. ${customerDetails.total}</span>
                     </p>
                     <p class="mt-2">Invoice Date
 
