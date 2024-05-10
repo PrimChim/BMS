@@ -5,32 +5,30 @@ function bills(page = 1) {
         .then(response => response.json())
         .then(data => {
             data.pop();
-            let condition = true;
-            for (let bill of data) {
-                if (condition) {
-                    let row = `<tr>
-                <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
-                <td class="w-1/3 text-left py-3 px-4">Rs. ${bill.total_price}</td>
-                <td class="text-left py-3 px-4">${bill.invoice_date}</td>
-                <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
-                <i class="fas fa-eye mt-3"></i>
-                </button></td>
-            </tr>`;
-                    table.innerHTML += row;
-                    condition = false;
-                } else {
-                    let row = `<tr class="bg-gray-200">
-                <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
-                <td class="w-1/3 text-left py-3 px-4">Rs. ${bill.total_price}</td>
-                <td class="text-left py-3 px-4">${bill.invoice_date}</td>
-                <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
-                <i class="fas fa-eye mt-3"></i>
-                </button></td>
-            </tr>`;
-                    table.innerHTML += row;
-                    condition = true;
+            data.forEach(bill => {
+                let row = table.insertRow(-1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+                let cell5 = row.insertCell(4);
+
+                cell1.innerHTML = bill.id;
+                cell2.innerHTML = `Rs. ${bill.total_price}`;
+                cell3.innerHTML = bill.customer_id;
+                cell4.innerHTML = bill.invoice_date;
+                cell5.innerHTML = `<button onClick='openBill(${bill.id})'><i class="fas fa-eye mt-3"><i></button>`;
+
+                cell1.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell2.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell3.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell4.classList.add('text-left', 'py-3', 'px-4');
+                cell5.classList.add('text-center', 'py-3', 'px-4');
+
+                if (table.rows.length % 2 === 0) {
+                    row.classList.add('bg-gray-200');
                 }
-            }
+            })
         }
         );
 }
@@ -49,33 +47,32 @@ function cancelledBills() {
         .then(response => response.json())
         .then(data => {
             let table = document.getElementById('bill-table');
-            let condition = true;
             table.innerHTML = ``;
-            for (let bill of data) {
-                if (condition) {
-                    let row = `<tr>
-                <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
-                <td class="w-1/3 text-left py-3 px-4">Rs. ${bill.total_price}</td>
-                <td class="text-left py-3 px-4">${bill.invoice_date}</td>
-                <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
-                <i class="fas fa-eye mt-3"></i>
-                </button></td>
-            </tr>`;
-                    table.innerHTML += row;
-                    condition = false;
-                } else {
-                    let row = `<tr class="bg-gray-200">
-                <td class="w-1/3 text-left py-3 px-4">${bill.id}</td>
-                <td class="w-1/3 text-left py-3 px-4">Rs. ${bill.total_price}</td>
-                <td class="text-left py-3 px-4">${bill.invoice_date}</td>
-                <td class="text-center py-3 px-4"><button onClick='openBill(${bill.id})'>
-                <i class="fas fa-eye mt-3"></i>
-                </button></td>
-            </tr>`;
-                    table.innerHTML += row;
-                    condition = true;
+            data.forEach(bill => {
+                let row = table.insertRow(-1);
+
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+                let cell5 = row.insertCell(4);
+
+                cell1.innerHTML = bill.id;
+                cell2.innerHTML = `Rs. ${bill.total_price}`;
+                cell3.innerHTML = bill.customer_id;
+                cell4.innerHTML = bill.invoice_date;
+                cell5.innerHTML = `<button onClick='openBill(${bill.id})'><i class="fas fa-eye mt-3"><i></button>`;
+
+                cell1.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell2.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell3.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell4.classList.add('text-left', 'py-3', 'px-4');
+                cell5.classList.add('text-center', 'py-3', 'px-4');
+
+                if (table.rows.length % 2 === 0) {
+                    row.classList.add('bg-gray-200');
                 }
-            }
+            });
         }
         );
 }
@@ -101,27 +98,29 @@ function openBill(id) {
             </thead>`;
 
             let condition = true;
-            for (let product of data) {
-                let row = '';
-                if (condition) {
-                    row = `<tr>
-                    <td class="w-1/3 text-left py-3 px-4">${product.item}</td>
-                    <td class="w-1/3 text-left py-3 px-4">${product.quantity}</td>
-                    <td class="text-left py-3 px-4">Rs. ${product.price}</td>
-                    <td class="text-left py-3 px-4">Rs. ${product.price * product.quantity}</td>
-                    </tr>`;
-                    condition = false;
+            data.forEach(product => {
+                let row = table.insertRow(-1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+
+                cell1.innerHTML = product.item;
+                cell2.innerHTML = product.quantity;
+                cell3.innerHTML = `Rs. ${product.price}`;
+                cell4.innerHTML = `Rs. ${product.price * product.quantity}`;
+
+                cell1.classList.add('w-1/3', 'text-left', 'py-3', 'px-4');
+                cell2.classList.add('w-1/3', 'text-left', 'py-3', 'px-4');
+                cell3.classList.add('text-left', 'py-3', 'px-4');
+                cell4.classList.add('text-left', 'py-3', 'px-4');
+
+                if (table.rows.length % 2 === 0) {
+                    row.classList.add('bg-gray-200', 'text-gray-700');
                 } else {
-                    row = `<tr class="bg-gray-200">
-                    <td class="w-1/3 text-left py-3 px-4">${product.item}</td>
-                    <td class="w-1/3 text-left py-3 px-4">${product.quantity}</td>
-                    <td class="text-left py-3 px-4">Rs. ${product.price}</td>
-                    <td class="text-left py-3 px-4">Rs. ${product.price * product.quantity}</td>
-                    </tr>`;
-                    condition = true;
+                    row.classList.add('bg-white', 'text-gray-700');
                 }
-                table.innerHTML += row;
-            }
+            });
 
             // create new element
             let div = document.createElement('div');

@@ -38,6 +38,7 @@ searchForm.addEventListener('submit', function (e) {
     fetch(`/billing/api/get-items?search=${search}`)
         .then(response => response.json())
         .then(data => {
+            data.pop();
             itemsTable.innerHTML = '';
             data.forEach(item => {
                 let row = itemsTable.insertRow(-1);

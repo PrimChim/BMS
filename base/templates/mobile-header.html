@@ -19,8 +19,20 @@
             Create Bill
         </a>
         <a href="{% url 'billing:view-bills-frontend' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-            <i class="fas fa-table mr-3"></i>
+            <i class="fas fa-sticky-note mr-3"></i>
             Bills
+        </a>
+        <a href="{% url 'billing:items' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+            <i class="fas fa-box mr-3"></i>
+            Items
+        </a>
+        <a href="{% url 'billing:view-bills-frontend' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+            <i class="fas fa-users mr-3"></i>
+            Customers
+        </a>
+        <a href="{% url 'billing:business-settings' %}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+            <i class="fas fa-cog mr-3"></i>
+            Business Settings
         </a>
         <button
             onclick="logout()"

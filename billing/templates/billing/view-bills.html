@@ -22,7 +22,8 @@
                     <option value="">Amit</option>
                     <option value="">Sushma</option>
                 </select>
-                <a onclick="cancelledBills()" class="p-2  underline text-red-400 hover:text-red-500 hover:cursor-pointer">Canelled Bills</a>
+                <a onclick="cancelledBills()"
+                    class="p-2  underline text-red-400 hover:text-red-500 hover:cursor-pointer">Cancelled Bills</a>
             </div>
             <div>
                 {% csrf_token %}
@@ -35,8 +36,9 @@
                 <table class="min-w-full bg-white">
                     <thead class="bg-gray-800 text-white">
                         <tr>
-                            <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Bill No.</th>
-                            <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Bill Amount</th>
+                            <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Bill No.</th>
+                            <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Bill Amount</th>
+                            <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Customer</th>
                             <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Bill Date</th>
                             <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Actions</td>
                         </tr>
@@ -59,8 +61,6 @@
     <footer class="w-full bg-white text-right p-4">
         Built by <a target="_blank" href="https://pritamgurung.com.np" class="underline">Pritam Gurung</a>.
     </footer>
-</div>
-
 </div>
 
 <script src="{% static 'billing/js/view-bills.js' %}"></script>

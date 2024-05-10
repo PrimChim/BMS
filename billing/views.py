@@ -16,7 +16,6 @@ from django.core.paginator import Paginator
 def create_bill_api(request):
     if request.method == 'POST':
         data = request.data
-        print(data)
         customer_email = request.data.get('customer-email')
         customer_id = Customer.objects.get(email=customer_email).id
 
@@ -196,3 +195,8 @@ def view_bills_frontend(request):
 @login_required
 def items_frontend(request):
     return render(request, 'billing/items.html')
+
+# admin login required
+@login_required
+def business_settings(request):
+    return render(request, 'billing/business-settings.html')

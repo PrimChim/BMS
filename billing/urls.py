@@ -8,6 +8,7 @@ urlpatterns = [
     path('bills/', view_bills_frontend, name='view-bills-frontend'),
     path('dashboard/', dashboard, name='dashboard'),
     path('items/', items_frontend, name='items'),
+    path('business-settings/', business_settings, name='business-settings'),
 
     # billing API urls
     path('api/add-items/', add_items, name='add-items'),
