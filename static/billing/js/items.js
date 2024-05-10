@@ -88,3 +88,32 @@ addItemForm.addEventListener('submit', function (e) {
             }
         });
 })
+
+// item details popup
+let modal = document.querySelector('[item-modal]');
+
+function openItem(id){
+    let id = document.getElementById('item-id');
+    let name = document.getElementById('item-name');
+    let price = document.getElementById('item-price');
+    let description = document.getElementById('item-description');
+
+    id.value = id;
+    
+    modal.showModal();
+    
+    fetch(`/billing/api/get-items?id=${id}`)
+    .then(response => response.json())
+    .then(data => {
+        name.value = data.name;
+        price.value = data.price;
+        description.value = data.description;
+    });
+    
+}
+
+let closeButton = document.getElementById('close-button');
+
+closeButton.addEventListener('click', function(){
+    modal.close();
+});

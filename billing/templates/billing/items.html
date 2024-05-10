@@ -48,11 +48,27 @@ Items | Khata Bill Management System
                 </div>
             </div>
         </div>
+        <dialog item-modal>
+            <form action="post" class="p-4 rounded shadow" id="item-details">
+                {% csrf_token %}
+                <input type="hidden" name="id" id="item-id" />
+                <h1 class="text-center font-bold uppercase">Item Details</h1>
+                <label for="name">Item Name</label>
+                <input type="text" name="name" id="item-name" class="w-full border border-gray-200 p-2" />
+                <label for="price">Price</label>
+                <input type="text" name="price" id="item-price" class="w-full border border-gray-200 p-2" />
+                <label for="description">Description</label>
+                <textarea name="description" id="item-description" class="w-full border border-gray-200 p-2"></textarea>
+                <div class="flex w-full justify-between p-4">
+                    <button class="border bg-blue-500 p-2 text-white hover:bg-blue-600" type="submit">update</button>
+                    <button class="border bg-red-500 p-2 text-white hover:bg-red-600" type="button" id="close-button">Cancel</button>
+                </div>
+            </form>
+        </dialog>
         <dialog data-modal>
             <form method="post" class="p-4 rounded shadow" id="add-item-form">
                 {% csrf_token %}
                 <h1 class="text-center font-bold uppercase">Add Item</h1>
-                <input type="hidden" name="id" id="id" />
                 <label for="name">Item Name</label>
                 <input type="text" name="name" id="name" class="w-full border border-gray-200 p-2" />
                 <label for="price">Price</label>

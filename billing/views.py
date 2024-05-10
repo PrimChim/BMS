@@ -131,6 +131,13 @@ def add_items(request):
 def get_items(request):
     search = request.GET.get('search')
     page = request.GET.get('page')
+    id = request.GET.get('id')
+
+    if id is not None:
+        item = Items.objects.get(id=id)
+        serializer = ItemsSerializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     if search is not None:
         items = Items.objects.filter(name__contains=search)
         serializer = ItemsSerializer(items, many=True)
