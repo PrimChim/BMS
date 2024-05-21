@@ -16,48 +16,91 @@
                         <form class="flex flex-col p-5" id="profile-form">
                             {% csrf_token %}
                             <div class="mb-4">
-                                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                                <label for="username"
+                                    class="block text-gray-700 text-sm font-bold mb-2">Username</label>
                                 <input type="text" id="username" name="username" value="{{ user.username }}"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </div>
                             <div class="mb-4">
                                 <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
                                 <input type="email" id="email" name="email" value="{{ user.email }}"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </div>
                             <div class="mb-4">
-                                <label for="first_name" class="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+                                <label for="first_name" class="block text-gray-700 text-sm font-bold mb-2">First
+                                    Name</label>
                                 <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </div>
                             <div class="mb-4">
-                                <label for="last_name" class="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+                                <label for="last_name" class="block text-gray-700 text-sm font-bold mb-2">Last
+                                    Name</label>
                                 <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </div>
                             <div class="mb-4">
-                                <label for="date_joined" class="block text-gray-700 text-sm font-bold mb-2">Date Joined</label>
+                                <label for="date_joined" class="block text-gray-700 text-sm font-bold mb-2">Date
+                                    Joined</label>
                                 <input type="text" id="date_joined" name="date_joined" value="{{ user.date_joined }}"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    readonly>
                             </div>
                             <div class="mb-4">
                                 <label for="last
                                     -login" class="block text-gray-700 text-sm font-bold mb-2">Last Login</label>
                                 <input type="text" id="last-login" name="last-login" value="{{ user.last_login }}"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    readonly>
                             </div>
                             <div class="mb-4">
                                 <button id="save-changes-btn"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    type="submit">
                                     Save Changes
                                 </button>
-                                <button id="delete-account-btn"
-                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                    Delete Account
-                                </button>
+                                <a id="change-password-btn"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    onclick="openForm()">
+                                    <i class="fas fa-lock"></i>
+                                    Change Password
+                                </a>
                             </div>
                         </form>
                     </div>
+                    <dialog password-modal>
+                        <form id="password-form" class="p-5">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="old-password" class="block text-gray-700 text-sm font-bold mb-2">Old
+                                    Password</label>
+                                <input type="password" id="old-password" name="old_password"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                            <div class="mb-4">
+                                <label for="new-password" class="block text-gray-700 text-sm font-bold mb-2">New
+                                    Password</label>
+                                <input type="password" id="new-password" name="new_password"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                            <div class="mb-4">
+                                <label for="confirm-password" class="block text-gray-700 text-sm font-bold mb-2">Confirm
+                                    Password</label>
+                                <input type="password" id="confirm-password" name="confirm_password"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                            <div class="mb-4 flex justify-between">
+                                <button id="cancel-password-btn"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="closeForm()">
+                                    Cancel
+                                </button>
+                                <button id="change-password-submit-btn"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    type="submit">
+                                    Confirm
+                                </button>
+                            </div>
+                        </form>
+                    </dialog>
                 </div>
             </div>
         </div>

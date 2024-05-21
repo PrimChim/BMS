@@ -191,6 +191,19 @@ def reset_password_api(request):
 @api_view(['POST'])
 def change_profile_details(request):
     if request.method == 'POST':
+        change_password = request.GET.get('change_password')
+        print(change_password)
+        if change_password:
+            old_password = request.data.get('old_password')
+            new_password = request.data.get('new_password')
+            user = request.user
+            if user.check_password(old_password):
+                user.set_password(new_password)
+                user.save()
+                login(request, user)
+                return Response({'success': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Invalid Old Password'}, status=status.HTTP_400_BAD_REQUEST)
         data = request.data.copy()
         user = request.user
         user.username = data.get('username')
