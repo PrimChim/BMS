@@ -11,15 +11,7 @@ Items | Khata Bill Management System
     <main class="w-full flex-grow p-6">
         <h1 class="text-3xl text-black pb-6">Items</h1>
         <div class="flex justify-between">
-            <div>
-                <!-- <select name="" class="p-2 border bg-white border-gray-200" id="">
-                    <option value="">Pritam</option>
-                    <option value="">Anil</option>
-                    <option value="">Amit</option>
-                    <option value="">Sushma</option>
-                </select> -->
-                <button class="border bg-blue-500 p-2 hover:bg-blue-600 text-white" data-open>Add Item</button>
-            </div>
+            <button class="border bg-blue-500 p-2 hover:bg-blue-600 text-white" data-open>Add Item</button>
             {% csrf_token %}
             <form id="search-form">
                 <input type="text" class="p-2 border border-gray-200" placeholder="search" id="search">
@@ -31,9 +23,10 @@ Items | Khata Bill Management System
                 <table class="w-full text-left whitespace-no-wrap">
                     <thead>
                         <tr class="min-w-full bg-gray-800 text-white">
-                            <th class="font-semibold w-3/5 uppercase px-4 py-3">Item Name</th>
-                            <th class="font-semibold w-1/5 uppercase px-4 py-3">Price</th>
-                            <th class="font-semibold w-1/5 uppercase px-4 py-3 text-center">Action</th>
+                            <th class="font-semibold w-3/6 uppercase px-4 py-3">Item Name</th>
+                            <th class="font-semibold w-1/6 uppercase px-4 py-3">Price</th>
+                            <th class="font-semibold w-1/6 uppercase px-4 py-3 text-center">Stock</th>
+                            <th class="font-semibold w-1/6 uppercase px-4 py-3 text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody id="items-table">
@@ -49,7 +42,7 @@ Items | Khata Bill Management System
             </div>
         </div>
         <dialog item-modal>
-            <form action="post" class="p-4 rounded shadow" id="item-details">
+            <form class="p-4 rounded shadow" id="item-details-form">
                 {% csrf_token %}
                 <input type="hidden" name="id" id="item-id" />
                 <h1 class="text-center font-bold uppercase">Item Details</h1>
@@ -57,11 +50,14 @@ Items | Khata Bill Management System
                 <input type="text" name="name" id="item-name" class="w-full border border-gray-200 p-2" />
                 <label for="price">Price</label>
                 <input type="text" name="price" id="item-price" class="w-full border border-gray-200 p-2" />
+                <label for="stock">Stock</label>
+                <input type="number" name="stock" id="item-stock" class="w-full border border-gray-200 p-2">
                 <label for="description">Description</label>
                 <textarea name="description" id="item-description" class="w-full border border-gray-200 p-2"></textarea>
                 <div class="flex w-full justify-between p-4">
-                    <button class="border bg-blue-500 p-2 text-white hover:bg-blue-600" type="submit">update</button>
-                    <button class="border bg-red-500 p-2 text-white hover:bg-red-600" type="button" id="close-button">Cancel</button>
+                    <button class="border bg-blue-500 p-2 text-white hover:bg-blue-600" type="submit">Update</button>
+                    <button class="border bg-red-500 p-2 text-white hover:bg-red-600" type="button"
+                        id="close-button">Cancel</button>
                 </div>
             </form>
         </dialog>
@@ -73,6 +69,8 @@ Items | Khata Bill Management System
                 <input type="text" name="name" id="name" class="w-full border border-gray-200 p-2" />
                 <label for="price">Price</label>
                 <input type="text" name="price" id="price" class="w-full border border-gray-200 p-2" />
+                <label for="stock">Stock</label>
+                <input type="number" name="stock" id="stock" class="w-full border border-gray-200 p-2">
                 <label for="description">Description</label>
                 <textarea name="description" id="description" class="w-full border border-gray-200 p-2"></textarea>
                 <div class="flex w-full justify-between p-4">

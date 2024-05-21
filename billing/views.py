@@ -131,10 +131,10 @@ def add_items(request):
 def get_items(request):
     search = request.GET.get('search')
     page = request.GET.get('page')
-    id = request.GET.get('id')
-
-    if id is not None:
-        item = Items.objects.get(id=id)
+    item_id = request.GET.get('id')
+    print("search", search, "page", page, "id", item_id)
+    if item_id is not None:
+        item = Items.objects.get(id=item_id)
         serializer = ItemsSerializer(item)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -166,6 +166,19 @@ def get_items(request):
     page_obj.append(paginator.num_pages)
     return Response(page_obj, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@login_required
+def update_item(request, id):
+    try:
+        item = Items.objects.get(id=id)
+        serializer = ItemsSerializer(instance=item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'success':'Item updated successfully!!!'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Items.DoesNotExist:
+        return Response({'error':'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+        
 # billing frontend views
 
 @login_required
