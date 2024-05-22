@@ -21,6 +21,7 @@ if (!localStorage.getItem('items')) {
 // search items dom manipulation
 itemsSearch.addEventListener('input', function () {
     let items = JSON.parse(localStorage.getItem('items'));
+    items.pop();
     let filteredItems = items.filter(item => item.name.toLowerCase().includes(this.value.toLowerCase()));
     if (filteredItems.length == 0) {
         fetchItems();
@@ -36,6 +37,7 @@ itemsSearch.addEventListener('input', function () {
 // items fade in
 itemsSearch.addEventListener('focus', function () {
     let items = JSON.parse(localStorage.getItem('items'));
+    items.pop();
     let filteredItems = items.filter(item => item.name.toLowerCase().includes(this.value.toLowerCase()));
     if (filteredItems.length == 0) {
         fetchItems();
