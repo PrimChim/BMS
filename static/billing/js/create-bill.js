@@ -8,7 +8,9 @@ let items = {
     'items': [],
     'quantity': [],
     'price': [],
-    'total': 0
+    'amount': 0,
+    'total': 0,
+    'tax-amount': 0
 };
 
 // fetch all customers and store them in cache
@@ -35,7 +37,6 @@ function setCustomer(name, pan, email) {
     customerPan.value = pan;
     customersList.style.display = 'none';
     items['customer-email'] = email;
-    console.log(items);
 }
 
 // search customer from localstorage
@@ -95,6 +96,7 @@ function createBill() {
     let url = '/billing/api/create-bill-api/';
     let data = items;
     let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
     fetch(url, {
         method: 'POST',
         headers: {
@@ -105,17 +107,34 @@ function createBill() {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            if (data.success) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.set('notifier', 'delay', 3);
+                alertify.success(data.success);
+                // wait for 3 seconds and reload
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+            } else {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.set('notifier', 'delay', 3);
+                alertify.error(data.error);
+            }
         })
         .catch((error) => {
-            console.error('Error:', error);
+            alertify.set('notifier', 'position', 'top-right');
+            alertify.set('notifier', 'delay', 3);
+            alertify.error(error);
+
         });
     items = {
         'customer-email': '',
         'items': [],
         'quantity': [],
         'price': [],
-        'total': 0
+        'amount': 0,
+        'total': 0,
+        'tax-amount': 0
     };
 }
 

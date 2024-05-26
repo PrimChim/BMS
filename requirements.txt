@@ -1,6 +1,7 @@
 asgiref==3.7.2
 cffi==1.16.0
 cryptography==41.0.7
+dj-database-url==2.1.0
 Django==5.0
 django-appconf==1.0.6
 django-compressor==4.4
@@ -11,11 +12,13 @@ django-rest-knox==4.2.0
 djangorestframework==3.14.0
 Markdown==3.5.1
 nepali-datetime==1.0.8.2
+psycopg2-binary==2.9.9
 pycparser==2.21
 python-decouple==3.8
 pytz==2023.3.post1
 rcssmin==1.1.1
 rjsmin==1.2.1
 sqlparse==0.4.4
+typing_extensions==4.12.0
 tzdata==2023.3
 whitenoise==6.6.0

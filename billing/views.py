@@ -31,8 +31,8 @@ def create_bill_api(request):
             item = Items.objects.get(name=items[i])
             bill_item = BillItems(quantity=quantities[i], bill=bill, item=item)
             bill_item.save()
-        return Response({'message':'Bill Created Successfully!!!'}, status=status.HTTP_201_CREATED)
-    return Response({'message' : 'Unsupported method used!!!'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success':'Bill Created Successfully!!!'}, status=status.HTTP_201_CREATED)
+    return Response({'error' : 'Unsupported method used!!!'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'POST'])
@@ -118,13 +118,20 @@ def cancel_bill(request, id):
             return Response({'error':'Bill not found'}, status=status.HTTP_404_NOT_FOUND)
     return Response({'error':'Unsupported method used!!!'}, status=status.HTTP_400_BAD_REQUEST)
 
+def calculate_pre_tax_price(price):
+    return round(price / (1 + (13/100)),2)
+
 @api_view(['POST'])
+@login_required
 def add_items(request):
-    serializer = ItemsSerializer(data=request.data)
+    data = request.data
+    copy_data = data.copy()
+    copy_data['price'] = calculate_pre_tax_price(float(copy_data['price']))
+    serializer = ItemsSerializer(data=copy_data)
     if serializer.is_valid():
         serializer.save()
         return Response({'success': 'Item successfully added!!!'}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'error': 'Error while uploading item!!!'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @login_required
@@ -132,7 +139,11 @@ def get_items(request):
     search = request.GET.get('search')
     page = request.GET.get('page')
     item_id = request.GET.get('id')
-    print("search", search, "page", page, "id", item_id)
+    items_all = request.GET.get('all')
+    if items_all:
+        items = Items.objects.all()
+        serializer = ItemsSerializer(items, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     if item_id is not None:
         item = Items.objects.get(id=item_id)
         serializer = ItemsSerializer(item)
@@ -171,11 +182,18 @@ def get_items(request):
 def update_item(request, id):
     try:
         item = Items.objects.get(id=id)
-        serializer = ItemsSerializer(instance=item, data=request.data)
+
+        data = request.data
+        copy_data = data.copy()
+
+        if float(item.price) != float(copy_data['price']):
+            copy_data['price'] = calculate_pre_tax_price(float(copy_data['price']))
+
+        serializer = ItemsSerializer(instance=item, data=copy_data)
         if serializer.is_valid():
             serializer.save()
             return Response({'success':'Item updated successfully!!!'}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'An error occured while updating item!!!'}, status=status.HTTP_400_BAD_REQUEST)
     except Items.DoesNotExist:
         return Response({'error':'Item not found'}, status=status.HTTP_404_NOT_FOUND)
         

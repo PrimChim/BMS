@@ -5,7 +5,7 @@ let itemsSearchResults = document.getElementById('items-search-result');
 // fetch all items and store them in localstorage
 function fetchItems() {
     let items = [];
-    fetch('/billing/api/get-items/')
+    fetch('/billing/api/get-items?all=true')
         .then((response) => response.json())
         .then((data) => {
             items = data;
@@ -21,7 +21,6 @@ if (!localStorage.getItem('items')) {
 // search items dom manipulation
 itemsSearch.addEventListener('input', function () {
     let items = JSON.parse(localStorage.getItem('items'));
-    items.pop();
     let filteredItems = items.filter(item => item.name.toLowerCase().includes(this.value.toLowerCase()));
     if (filteredItems.length == 0) {
         fetchItems();
@@ -37,7 +36,6 @@ itemsSearch.addEventListener('input', function () {
 // items fade in
 itemsSearch.addEventListener('focus', function () {
     let items = JSON.parse(localStorage.getItem('items'));
-    items.pop();
     let filteredItems = items.filter(item => item.name.toLowerCase().includes(this.value.toLowerCase()));
     if (filteredItems.length == 0) {
         fetchItems();
@@ -89,6 +87,7 @@ function setItem(name, price) {
 
 // calculate total on quantity change
 let total = document.getElementById('total');
+let amount = document.getElementById('amount');
 total.value = 0;
 function calculateTotalOnChange() {
     let totalAmount = 0;
@@ -96,8 +95,11 @@ function calculateTotalOnChange() {
     for (let i = 0; i < items.quantity.length; i++) {
         totalAmount += items.price[i] * items.quantity[i];
     }
-    total.value = totalAmount;
-    items.total = totalAmount;
+    amount.value = totalAmount;
+    items.amount = totalAmount;
+    items.total = Math.ceil((totalAmount + (totalAmount * 0.13)) * 100) / 100;
+    total.value = items.total;
+    items["tax-amount"]= Math.ceil((items.total - totalAmount)*100)/100;
 }
 
 function removeItem(item) {
