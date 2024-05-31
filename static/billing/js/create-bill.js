@@ -1,10 +1,12 @@
 let customersList = document.getElementById('customers-list');
 let customerPan = document.getElementById('customer-pan');
 let customer = document.getElementById('customer-name');
+let bill_date = document.getElementById('bill_date');
 
 // creating a list of all items and customer name and email in a object
 let items = {
     'customer-email': '',
+    'bill-date': '',
     'items': [],
     'quantity': [],
     'price': [],
@@ -94,6 +96,7 @@ setInterval(fetchCustomers, 120000);
 // create bill
 function createBill() {
     let url = '/billing/api/create-bill-api/';
+    items['bill-date'] = bill_date.value;
     let data = items;
     let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -115,6 +118,16 @@ function createBill() {
                 setTimeout(() => {
                     location.reload();
                 }, 3000);
+                items = {
+                    'customer-email': '',
+                    'bill-date': '',
+                    'items': [],
+                    'quantity': [],
+                    'price': [],
+                    'amount': 0,
+                    'total': 0,
+                    'tax-amount': 0
+                };
             } else {
                 alertify.set('notifier', 'position', 'top-right');
                 alertify.set('notifier', 'delay', 3);
@@ -127,14 +140,5 @@ function createBill() {
             alertify.error(error);
 
         });
-    items = {
-        'customer-email': '',
-        'items': [],
-        'quantity': [],
-        'price': [],
-        'amount': 0,
-        'total': 0,
-        'tax-amount': 0
-    };
 }
 

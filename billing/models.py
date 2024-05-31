@@ -12,10 +12,14 @@ class Items(models.Model):
 
 # bill details model
 class Bills(models.Model):
+    bill_no = models.IntegerField(default=1, editable=True)
+
     customer_id = models.IntegerField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    invoice_date = models.DateTimeField(auto_now_add=True)
+    invoice_date = models.DateTimeField()
     status = models.CharField(max_length=10, default='regular', choices=[('regular', 'regular'), ('cancelled', 'cancelled')])
+    tax_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
 
     def __str__(self):
         return str(self.id)
@@ -28,3 +32,14 @@ class BillItems(models.Model):
 
     def __str__(self):
         return str(self.bill_id)
+
+# business details
+class Business(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.TextField()
+    phone = models.CharField(max_length=15)
+    email = models.EmailField()
+    website = models.URLField()
+
+    def __str__(self):
+        return self.name

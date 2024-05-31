@@ -8,24 +8,24 @@
     <main class="w-full flex-grow p-6">
         <h1 class="text-3xl text-black pb-6">Dashboard</h1>
 
-        <div class="flex w-full justify-between p-4 flex-wrap">
+        <!-- <div class="flex w-full justify-between p-4 flex-wrap">
             <div class="flex w-1/2 items-center justify-around rounded md:w-1/5 bg-yellow-50 p-4">
-              <p class="text-6xl font-bold">15</p>
-              Bills created today
+                <p class="text-6xl font-bold">15</p>
+                Bills created today
             </div>
             <div class="flex w-1/2 flex-col justify-center text-center rounded md:w-1/5 bg-yellow-50 p-4">
-              <p class="text-center text-3xl font-bold">Rs. 15000</p>
-              Transaction of the day
+                <p class="text-center text-3xl font-bold">Rs. 15000</p>
+                Transaction of the day
             </div>
             <div class="flex w-1/2 items-center justify-around rounded md:w-1/5 bg-blue-100 p-4">
-              <p class="text-6xl font-bold">25</p>
-              Bills created this month
+                <p class="text-6xl font-bold">25</p>
+                Bills created this month
             </div>
             <div class="flex w-1/2 flex-col text-center justify-center rounded md:w-1/5 bg-blue-100 p-4">
-              <p class="text-center text-3xl font-bold">Rs. 120000</p>
-              <p class="text-center">Transaction of the month</p>
+                <p class="text-center text-3xl font-bold">Rs. 120000</p>
+                <p class="text-center">Transaction of the month</p>
             </div>
-          </div>                 
+        </div> -->
 
         <div class="flex flex-wrap mt-6">
             <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
@@ -38,7 +38,7 @@
             </div>
             <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                 <p class="text-xl pb-3 flex items-center">
-                    <i class="fas fa-check mr-3"></i> Monthly Sales
+                    <i class="fas fa-check mr-3"></i> Monthly Tax
                 </p>
                 <div class="p-6 bg-white">
                     <canvas id="chartTwo" width="400" height="200"></canvas>
@@ -52,107 +52,108 @@
     </footer>
 </div>
 
-<!-- AlpineJS -->
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-<!-- Font Awesome -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
-    integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 <!-- ChartJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
     integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 
 <script>
     var chartOne = document.getElementById('chartOne');
+    var chartTwo = document.getElementById('chartTwo');
 
-    const seperatedData = [[],[]];
+    const seperatedData = [[], [],[]];
     fetch('/billing/api/view-bills?all=true')
         .then(response => response.json())
         .then(data => {
             data.forEach(element => {
                 const date = new Date(element.invoice_date);
                 const month = date.toLocaleString('default', { month: 'long' });
-                if (seperatedData[0].indexOf(month) !== -1){
-                    seperatedData[1][seperatedData[0].indexOf(month)] += +element.total_price;
-                } else{
+                if (seperatedData[0].indexOf(month) !== -1) {
+                    let index = seperatedData[0].indexOf(month);
+                    seperatedData[1][index] += parseFloat(element.total_price);
+                    seperatedData[2][index] += parseFloat(element.tax_amount);
+                } else {
                     seperatedData[0].push(month);
-                    seperatedData[1].push(+element.total_price);
+                    seperatedData[1].push(parseFloat(element.total_price));
+                    seperatedData[2].push(parseFloat(element.tax_amount));
+                }
+            });
+
+            console.log(seperatedData)
+            var myChart = new Chart(chartOne, {
+                type: 'bar',
+                data: {
+                    labels: seperatedData[0],
+                    datasets: [{
+                        label: 'Monthly sales report',
+                        data: seperatedData[1],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var myLineChart = new Chart(chartTwo, {
+                type: 'bar',
+                data: {
+                    labels: seperatedData[0],
+                    datasets: [{
+                        label: 'Monthly tax report',
+                        data: seperatedData[2],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
             });
         });
-    var myChart = new Chart(chartOne, {
-        type: 'bar',
-        data: {
-            labels: seperatedData[0],
-            datasets: [{
-                label: 'Monthly sales report',
-                data: seperatedData[1],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
 
-    var chartTwo = document.getElementById('chartTwo');
-    var myLineChart = new Chart(chartTwo, {
-        type: 'line',
-        data: {
-            labels: seperatedData[0],
-            datasets: [{
-                label: 'Monthly sales report',
-                data: seperatedData[1],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
 </script>
 
 {% endblock %}

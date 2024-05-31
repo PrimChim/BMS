@@ -9,6 +9,7 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('items/', items_frontend, name='items'),
     path('business-settings/', business_settings, name='business-settings'),
+    path('generate-invoice/<int:id>', generate_invoice, name='generate-invoice'),
 
     # billing API urls
     path('api/add-items/', add_items, name='add-items'),

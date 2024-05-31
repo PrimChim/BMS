@@ -13,9 +13,9 @@ function bills(page = 1) {
                 let cell4 = row.insertCell(3);
                 let cell5 = row.insertCell(4);
 
-                cell1.innerHTML = bill.id;
+                cell1.innerHTML = bill.bill_no;
                 cell2.innerHTML = `Rs. ${bill.total_price}`;
-                cell3.innerHTML = bill.customer_id;
+                cell3.innerHTML = bill.customer_name;
                 cell4.innerHTML = bill.invoice_date;
                 cell5.innerHTML = `<button onClick='openBill(${bill.id})'><i class="fas fa-eye mt-3"><i></button>`;
 
@@ -175,6 +175,11 @@ function openBill(id) {
         );
 }
 
+function printBill(id) {
+// redirect to print page
+    window.location.href = '/billing/generate-invoice/' + id;
+}
+
 function cancelBill(id) {
     fetch('/billing/api/cancel-bill/' + id, {
         method: 'GET'
@@ -220,3 +225,58 @@ function regularBill(id) {
             }
         });
 }
+
+// select custoemers
+let selectCustomers = document.getElementById('customers-select');
+
+// add customers to select element
+function fetchCustomers() {
+    let customers = [];
+    fetch('/customers')
+        .then((response) => response.json())
+        .then((data) => {
+            customers = data;
+            customers.forEach(customer => {
+                selectCustomers.innerHTML += `<option value="${customer.pan}">${customer.name}</option>`;
+            });
+        });
+}
+
+fetchCustomers();
+
+selectCustomers.addEventListener('change', function () {
+    let customer_pan = this.value;
+    fetch('/billing/api/view-bills?customer_pan=' + customer_pan)
+        .then(response => response.json())
+        .then(data => {
+            table.innerHTML = '';
+            data.pop();
+            data.forEach(bill => {
+                let row = table.insertRow(-1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+                let cell5 = row.insertCell(4);
+
+                cell1.innerHTML = bill.id;
+                cell2.innerHTML = `Rs. ${bill.total_price}`;
+                cell3.innerHTML = bill.customer_name;
+                cell4.innerHTML = bill.invoice_date;
+                cell5.innerHTML = `<button onClick='openBill(${bill.id})'><i class="fas fa-eye mt-3"><i></button>`;
+
+                cell1.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell2.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell3.classList.add('w-1/4', 'text-left', 'py-3', 'px-4');
+                cell4.classList.add('text-left', 'py-3', 'px-4');
+                cell5.classList.add('text-center', 'py-3', 'px-4');
+
+                if (table.rows.length % 2 === 0) {
+                    row.classList.add('bg-gray-200');
+                }
+            })
+        }
+        );
+}
+);
+
